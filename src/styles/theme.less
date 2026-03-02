@@ -1,0 +1,142 @@
+// ============================================
+// 现代清爽蓝（B 端后台统一风格）
+// 目标：统一风格、简单大气、留白充足、层次清晰
+// ============================================
+
+// Neutral palette
+@ink-950: #0b0f1a;
+@ink-900: #101522;
+@ink-850: #141b2d;
+@ink-800: #1a2235;
+@ink-700: #1f2937;
+@ink-600: #334155;
+
+// Brand (Tech Blue)
+@blue-500: #1677ff;
+@blue-600: #0958d9;
+@blue-400: #4096ff;
+@blue-300: #69b1ff;
+
+// Surfaces (Light)
+@surface-1: #ffffff;
+@surface-2: #f0f2f5; // page background
+@surface-3: #fafafa; // subtle header / table head
+@surface-4: #f5f7fa;
+
+@surface-glass: rgba(255, 255, 255, 0.86);
+@surface-elevated: rgba(255, 255, 255, 0.96);
+
+// Text tiers (Light)
+@text-on-dark: #1f2225;
+@text-on-dark-secondary: #515a6e;
+@text-on-dark-tertiary: #999999;
+@text-on-light: #1f2225;
+@text-on-light-secondary: #515a6e;
+
+// Alias for existing tokens (compat)
+@primary-color: @blue-500;
+@primary-dark: @blue-600;
+@primary-light: @blue-400;
+
+@secondary-color: @blue-500;
+@secondary-dark: @blue-600;
+@secondary-light: @blue-400;
+@secondary-lighter: @blue-300;
+
+@bg-primary: @surface-2;
+@bg-secondary: @surface-3;
+@bg-tertiary: @surface-4;
+@bg-light: @surface-4;
+@bg-white: #ffffff;
+
+@text-primary: @text-on-dark;
+@text-secondary: @text-on-dark-secondary;
+@text-tertiary: @text-on-dark-tertiary;
+@text-dark: @text-on-light;
+@text-dark-secondary: @text-on-light-secondary;
+
+@border-color: #ebeef5;
+@border-light: #f0f0f0;
+@border-dark: rgba(31, 34, 37, 0.16);
+@border-subtle: #ebeef5;
+@outline-focus: rgba(22, 119, 255, 0.35);
+
+// Functional colors
+@success-color: #52c41a;
+@warning-color: #faad14;
+@error-color: #ff4d4f;
+@info-color: #1677ff;
+
+// Shadow system
+@shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+@shadow-md: 0 1px 2px 0 rgba(0, 0, 0, 0.03), 0 1px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px 0 rgba(0, 0, 0, 0.02);
+@shadow-lg: 0 8px 24px rgba(20, 26, 42, 0.12);
+@shadow-xl: 0 14px 36px rgba(20, 26, 42, 0.16);
+@shadow-inner: inset 0 1px 2px rgba(0, 0, 0, 0.02);
+
+@glow-color: rgba(22, 119, 255, 0.25);
+@glow-shadow: 0 0 12px rgba(22, 119, 255, 0.22), 0 0 28px rgba(22, 119, 255, 0.12);
+
+// Radius
+@radius-sm: 4px;
+@radius-md: 8px;
+@radius-lg: 12px;
+@radius-xl: 18px;
+@radius-pill: 999px;
+
+// Motion
+@transition-duration-fast: 120ms;
+@transition-duration-base: 260ms;
+@transition-duration-slow: 520ms;
+@transition-timing: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+// Spacing
+@spacing-xs: 4px;
+@spacing-sm: 8px;
+@spacing-md: 16px;
+@spacing-lg: 24px;
+@spacing-xl: 32px;
+@spacing-2xl: 48px;
+
+// Typography
+@font-family-display: @font-family-base;
+@font-family-base: 'Source Sans 3', 'PingFang SC', 'Microsoft YaHei', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+@font-family-code: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+
+@font-size-xs: 12px;
+@font-size-sm: 13px;
+@font-size-base: 14px;
+@font-size-lg: 16px;
+@font-size-xl: 18px;
+@font-size-2xl: 20px;
+@font-size-3xl: 26px;
+@font-size-4xl: 34px;
+
+@line-height-tight: 1.2;
+@line-height-normal: 1.55;
+@line-height-relaxed: 1.75;
+@line-height-loose: 2;
+
+@font-weight-light: 300;
+@font-weight-normal: 400;
+@font-weight-medium: 500;
+@font-weight-semibold: 600;
+@font-weight-bold: 700;
+
+// Z-Index
+@z-index-dropdown: 1050;
+@z-index-tooltip: 1060;
+@z-index-popover: 1050;
+@z-index-modal: 1000;
+@z-index-notification: 1080;
+@z-index-sticky: 900;
+@z-index-fixed: 100;
+@z-index-float: 50;
+
+// Gradients
+@gradient-card: linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(250, 250, 250, 0.98) 100%);
+@gradient-card-hover: linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(245, 247, 250, 0.98) 100%);
+@gradient-button-primary: linear-gradient(135deg, @blue-500 0%, @blue-600 100%);
+@gradient-button-gold: @gradient-button-primary; // 兼容旧命名，实际为品牌蓝
+@gradient-button-hover: linear-gradient(135deg, @blue-400 0%, @blue-600 100%);
+@divider-color: linear-gradient(90deg, transparent, rgba(22, 119, 255, 0.35) 16%, rgba(22, 119, 255, 0.35) 84%, transparent);

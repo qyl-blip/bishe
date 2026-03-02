@@ -1,0 +1,102 @@
+@import './theme.less';
+
+html {
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+*,
+::before,
+::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+a:hover,
+a:link,
+a:visited,
+a:active {
+  text-decoration: none;
+  color: inherit;
+  transition: all @transition-duration-base @transition-timing;
+}
+
+a {
+  color: @secondary-color;
+  &:hover {
+    color: @secondary-light;
+  }
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+input,
+textarea,
+select,
+button {
+  outline: none;
+  font-family: @font-family-base;
+}
+
+// Keep native borders for inputs/selects so component libraries (e.g. Ant) can style correctly.
+// Buttons are still borderless by default.
+button {
+  border: none;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  font-size: @font-size-base;
+  font-weight: @font-weight-normal;
+  line-height: @line-height-normal;
+  font-family: @font-family-base;
+  background: @bg-primary;
+  color: @text-primary;
+  position: relative;
+}
+
+body::before {
+  display: none;
+}
+
+::selection {
+  background: rgba(22, 119, 255, 0.18);
+  color: @text-primary;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: @radius-lg;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, @secondary-color 0%, @secondary-dark 100%);
+  border-radius: @radius-lg;
+  box-shadow: @shadow-sm;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, @secondary-light 0%, @secondary-color 100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+    scroll-behavior: auto !important;
+  }
+}
