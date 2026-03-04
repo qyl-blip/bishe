@@ -48,14 +48,6 @@
           <img :src="SafeIconImage" alt="账号安全" />
           <span>账号安全</span>
         </div>
-        <div class="mine-item flex-view" @click="clickMenu('pushView')">
-          <img :src="PushIconImage" alt="推送设置" />
-          <span>推送设置</span>
-        </div>
-        <div class="mine-item flex-view" @click="clickMenu('messageView')">
-          <img :src="MessageIconImage" alt="消息管理" />
-          <span>消息管理</span>
-        </div>
       </div>
     </div>
   </div>
@@ -69,8 +61,6 @@
   import PointIconImage from '/@/assets/images/order-point-icon.svg';
   import SettingIconImage from '/@/assets/images/setting-icon.svg';
   import SafeIconImage from '/@/assets/images/setting-safe-icon.svg';
-  import PushIconImage from '/@/assets/images/setting-push-icon.svg';
-  import MessageIconImage from '/@/assets/images/setting-msg-icon.svg';
 
   import { userCollectListApi } from '/@/api/thingCollect';
   import { userWishListApi } from '/@/api/thingWish';

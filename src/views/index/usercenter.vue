@@ -46,14 +46,6 @@
           <safety-outlined />
           <span>账号安全</span>
         </a-menu-item>
-        <a-menu-item key="pushView" @click="clickMenu('pushView')">
-          <bell-outlined />
-          <span>推送设置</span>
-        </a-menu-item>
-        <a-menu-item key="messageView" @click="clickMenu('messageView')">
-          <message-outlined />
-          <span>消息管理</span>
-        </a-menu-item>
         <a-menu-item key="collectThingView" @click="clickMenu('collectThingView')">
           <heart-outlined />
           <span>我的收藏</span>
@@ -89,8 +81,6 @@
     CalendarOutlined, 
     UserOutlined, 
     SafetyOutlined, 
-    BellOutlined, 
-    MessageOutlined,
     HeartOutlined,
     StarOutlined,
     InboxOutlined,
@@ -169,8 +159,6 @@
       receivedOrdersView: '收到的预约',
       userInfoEditView: '编辑资料',
       securityView: '账号安全',
-      pushView: '推送设置',
-      messageView: '消息管理',
       collectThingView: '我的收藏',
       wishThingView: '心愿单',
     };
