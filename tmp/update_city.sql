@@ -1,9 +1,0 @@
-SET NAMES utf8mb4;
-UPDATE b_thing SET title='苏清·海派保洁', description='专业全屋保洁，细致打磨，适合正式展示。', price='88', sex='女', age='33', location='浦东新区', classification_id=3, status='0', mobile='13800000011', user_id='10', city='上海', cover='sh-service-01.jpg' WHERE id=99;
-UPDATE b_thing SET title='周敏·高端收纳', description='衣帽间与厨房收纳规划，提升空间使用率。', price='120', sex='女', age='34', location='静安区', classification_id=3, status='0', mobile='13800000012', user_id='10', city='上海', cover='sh-service-02.jpg' WHERE id=100;
-UPDATE b_thing SET title='赵宁·泉城保洁', description='厨房深度清洁，去油去味，效果显著。', price='75', sex='女', age='35', location='历下区', classification_id=3, status='0', mobile='13800000021', user_id='10', city='济南', cover='jn-service-01.jpg' WHERE id=101;
-UPDATE b_thing SET title='王磊·家庭深护', description='消杀除螨，家居深度护理服务。', price='90', sex='男', age='36', location='槐荫区', classification_id=3, status='0', mobile='13800000022', user_id='10', city='济南', cover='jn-service-02.jpg' WHERE id=102;
-UPDATE b_thing SET title='刘畅·北国保洁', description='冬季深度保洁，室内空气清新。', price='70', sex='女', age='32', location='朝阳区', classification_id=3, status='0', mobile='13800000031', user_id='10', city='长春', cover='cc-service-01.jpg' WHERE id=103;
-UPDATE b_thing SET title='秦悦·暖心护幼', description='母婴照护，早教陪护，温柔细致。', price='260', sex='女', age='30', location='南关区', classification_id=1, status='0', mobile='13800000032', user_id='10', city='长春', cover='cc-service-02.jpg' WHERE id=104;
-UPDATE b_thing SET title='孙洁·南阳家政', description='日常清洁、玻璃清洗、厨房整理。', price='65', sex='女', age='33', location='宛城区', classification_id=3, status='0', mobile='13800000041', user_id='10', city='南阳', cover='ny-service-01.jpg' WHERE id=105;
-UPDATE b_thing SET title='林蕾·贴心护育', description='上门陪护，细致照料，经验丰富。', price='220', sex='女', age='31', location='卧龙区', classification_id=1, status='0', mobile='13800000042', user_id='10', city='南阳', cover='ny-service-02.jpg' WHERE id=106;
