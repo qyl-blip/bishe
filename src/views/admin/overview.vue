@@ -77,7 +77,7 @@ const initCharts = () => {
   visitChart.setOption({
     tooltip: { trigger: 'axis' },
     legend: {
-      data: ['IP', '访问�?],
+      data: ['IP', '访问量'],
       top: '90%',
       left: 'center',
       textStyle: { color: '#2E7D32' },
@@ -120,7 +120,7 @@ const initCharts = () => {
         areaStyle: { color: 'rgba(102, 187, 106, 0.18)' },
       },
       {
-        name: '访问�?,
+        name: '访问量',
         type: 'line',
         smooth: true,
         data: pvData,

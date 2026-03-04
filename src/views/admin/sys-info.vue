@@ -20,13 +20,13 @@
           <a-descriptions-item label="系统平台">
             {{ data.pf || '--' }}
           </a-descriptions-item>
-          <a-descriptions-item label="CPU核心�?>
+          <a-descriptions-item label="CPU核心数">
             {{ data.cpuCount || '--' }}
           </a-descriptions-item>
-          <a-descriptions-item label="处理器型�?>
+          <a-descriptions-item label="处理器型号">
             {{ data.processor || '--' }}
           </a-descriptions-item>
-          <a-descriptions-item label="CPU使用�?>
+          <a-descriptions-item label="CPU使用率">
             <a-progress 
               :percent="parseFloat(data.cpuLoad || 0)" 
               :stroke-color="{
@@ -42,7 +42,7 @@
           <a-descriptions-item label="内存使用">
             {{ data.usedMemory || '--' }}G
           </a-descriptions-item>
-          <a-descriptions-item label="内存使用�?>
+          <a-descriptions-item label="内存使用率">
             <a-progress 
               :percent="parseFloat(data.percentMemory || 0)" 
               :stroke-color="{

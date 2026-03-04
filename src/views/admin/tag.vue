@@ -13,7 +13,6 @@
         :loading="data.loading"
         :columns="columns"
         :data-source="data.tagList"
-        :scroll="{ x: 'max-content' }"
         :row-selection="rowSelection"
         :pagination="{
           size: 'default',
@@ -27,14 +26,14 @@
           showSizeChanger: false,
           showQuickJumper: false,
           hideOnSinglePage: false,
-          showTotal: (total) => `�?{total}条数据`,
+          showTotal: (total) => `共${total}条数据`,
         }"
       >
         <template #bodyCell="{ record, column }">
           <template v-if="column.key === 'operation'">
             <span class="action-space">
               <a class="operation-btn" @click="handleEdit(record)">编辑</a>
-              <a-popconfirm title="确定删除?" ok-text="�? cancel-text="�? @confirm="confirmDelete(record)">
+              <a-popconfirm title="确定删除?" ok-text="是" cancel-text="否" @confirm="confirmDelete(record)">
                 <a class="delete-btn">删除</a>
               </a-popconfirm>
             </span>
@@ -49,17 +48,15 @@
       :title="modal.title"
       ok-text="确认"
       cancel-text="取消"
+      width="480px"
+      centered
       @cancel="handleCancel"
       @ok="handleOk"
     >
-      <a-form ref="myform" :label-col="{ style: { width: '80px' } }" :model="modal.form" :rules="modal.rules">
-        <a-row :gutter="24">
-          <a-col span="24">
-            <a-form-item label="标签名称" name="title">
-              <a-input placeholder="请输入标签名�? v-model:value="modal.form.title"></a-input>
-            </a-form-item>
-          </a-col>
-        </a-row>
+      <a-form ref="myform" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }" :model="modal.form" :rules="modal.rules">
+        <a-form-item label="标签名称" name="title">
+          <a-input placeholder="请输入标签名称" v-model:value="modal.form.title"></a-input>
+        </a-form-item>
       </a-form>
     </a-modal>
   </div>
@@ -112,7 +109,7 @@ const modal = reactive({
     title: undefined,
   },
   rules: {
-    title: [{ required: true, message: '请输入标签名�?, trigger: 'change' }],
+    title: [{ required: true, message: '请输入标签名称', trigger: 'change' }],
   },
 });
 
@@ -447,7 +444,7 @@ const hideModal = () => {
   border-color: #66BB6A !important;
 }
 
-/* 滚动条样�?*/
+/* 滚动条样式 */
 :deep(*::-webkit-scrollbar) {
   width: 8px !important;
   height: 8px !important;
@@ -503,3 +500,49 @@ const hideModal = () => {
 </style>
 
 
+
+/* 模态框样式优化 */
+:deep(.ant-modal-header) {
+  padding: 20px 24px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+:deep(.ant-modal-title) {
+  font-size: 18px;
+  font-weight: 600;
+  color: #2E7D32;
+}
+
+:deep(.ant-modal-body) {
+  padding: 24px !important;
+}
+
+:deep(.ant-modal-footer) {
+  padding: 16px 24px;
+  border-top: 1px solid #f0f0f0;
+}
+
+:deep(.ant-form-item) {
+  margin-bottom: 20px;
+}
+
+:deep(.ant-form-item-label > label) {
+  font-weight: 500;
+  color: #2c3e50;
+  font-size: 14px;
+}
+
+:deep(.ant-input),
+:deep(.ant-input-affix-wrapper),
+:deep(.ant-select-selector) {
+  height: 40px !important;
+  border-radius: 8px !important;
+  font-size: 14px !important;
+}
+
+:deep(.ant-btn) {
+  height: 40px;
+  padding: 0 24px;
+  border-radius: 8px;
+  font-weight: 500;
+}

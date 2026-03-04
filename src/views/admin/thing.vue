@@ -491,7 +491,7 @@ const hideModal = () => {
   padding-bottom: 0 !important;
 }
 
-/* 多选标签横向排�?*/
+/* 多选标签横向排列 */
 .thing-modal-wrap .ant-select-selection-overflow {
   flex-direction: row !important;
   flex-wrap: wrap !important;
@@ -837,7 +837,7 @@ const hideModal = () => {
   border-color: #FFA726 !important;
 }
 
-/* 滚动条样�?*/
+/* 滚动条样式 */
 :deep(*::-webkit-scrollbar) {
   width: 8px !important;
   height: 8px !important;

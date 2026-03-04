@@ -70,7 +70,7 @@ onMounted(() => {
   search()
 })
 
-// ����query����
+// 监听query变化
 watch(() => route.query, (newPath, oldPath) => {
   search()
 }, {immediate: false});

@@ -6,7 +6,7 @@
           <a-button type="primary" @click="handleAdd">新增</a-button>
           <a-button @click="handleBatchDelete">批量删除</a-button>
           <a-input-search
-            addon-before="用户�?
+            addon-before="用户名"
             placeholder="请输入用户名"
             enter-button
             @search="onSearch"
@@ -34,14 +34,14 @@
           showSizeChanger: false,
           showQuickJumper: false,
           hideOnSinglePage: false,
-          showTotal: (total) => `�?{total}条数据`,
+          showTotal: (total) => `共${total}条数据`,
         }"
       >
         <template #bodyCell="{ text, record, column }">
           <template v-if="column.key === 'role'">
-            <a-tag v-if="text === '3'" color="processing">管理�?/a-tag>
+            <a-tag v-if="text === '3'" color="processing">管理员</a-tag>
             <a-tag v-else-if="text === '2'" color="blue">演示账号</a-tag>
-            <a-tag v-else color="green">普通用�?/a-tag>
+            <a-tag v-else color="green">普通用户</a-tag>
           </template>
           <template v-else-if="column.key === 'status'">
             <a-tag :color="text === '0' ? 'success' : 'error'">{{ text === '0' ? '正常' : '封号' }}</a-tag>
@@ -49,7 +49,7 @@
           <template v-else-if="column.key === 'operation'">
             <span class="action-space">
               <a class="operation-btn" @click="handleEdit(record)">编辑</a>
-              <a-popconfirm title="确定删除?" ok-text="�? cancel-text="�? @confirm="confirmDelete(record)">
+              <a-popconfirm title="确定删除?" ok-text="是" cancel-text="否" @confirm="confirmDelete(record)">
                 <a class="delete-btn">删除</a>
               </a-popconfirm>
             </span>
@@ -75,21 +75,21 @@
         @cancel="handleCancel"
         @ok="handleOk"
       >
-        <a-form ref="myform" :label-col="{ style: { width: '80px' } }" :model="modal.form" :rules="modal.rules">
-          <a-row :gutter="0">
+        <a-form ref="myform" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }" :model="modal.form" :rules="modal.rules">
+          <a-row :gutter="16">
             <a-col span="24">
-              <a-form-item label="用户�? name="username">
+              <a-form-item label="用户名" name="username">
                 <a-input :disabled="modal.editFlag" placeholder="请输入用户名" v-model:value="modal.form.username" allowClear />
               </a-form-item>
             </a-col>
             <a-col span="24" v-if="!modal.editFlag">
               <a-form-item label="密码" name="password">
-                <a-input placeholder="请输入密�? type="password" v-model:value="modal.form.password" allowClear />
+                <a-input placeholder="请输入密码" type="password" v-model:value="modal.form.password" allowClear />
               </a-form-item>
             </a-col>
             <a-col span="24">
               <a-form-item label="昵称" name="nickname">
-                <a-input placeholder="请输入昵�? v-model:value="modal.form.nickname" allowClear />
+                <a-input placeholder="请输入昵称" v-model:value="modal.form.nickname" allowClear />
               </a-form-item>
             </a-col>
             <a-col span="24">
@@ -102,8 +102,8 @@
               </a-form-item>
             </a-col>
             <a-col span="24">
-              <a-form-item label="状�? name="status">
-                <a-select placeholder="请选择状�? allowClear v-model:value="modal.form.status">
+              <a-form-item label="状态" name="status">
+                <a-select placeholder="请选择状态" allowClear v-model:value="modal.form.status">
                   <a-select-option key="0" value="0">正常</a-select-option>
                   <a-select-option key="1" value="1">封号</a-select-option>
                 </a-select>
@@ -111,11 +111,11 @@
             </a-col>
             <a-col span="24">
               <a-form-item label="邮箱" name="email">
-                <a-input placeholder="请输入邮�? v-model:value="modal.form.email" allowClear />
+                <a-input placeholder="请输入邮箱" v-model:value="modal.form.email" allowClear />
               </a-form-item>
             </a-col>
             <a-col span="24">
-              <a-form-item label="手机�? name="mobile">
+              <a-form-item label="手机号" name="mobile">
                 <a-input placeholder="请输入手机号" v-model:value="modal.form.mobile" allowClear />
               </a-form-item>
             </a-col>
@@ -140,7 +140,7 @@ const columns = reactive([
     align: 'center',
   },
   {
-    title: '用户�?,
+    title: '用户名',
     dataIndex: 'username',
     key: 'username',
     align: 'center',
@@ -158,7 +158,7 @@ const columns = reactive([
     align: 'center',
   },
   {
-    title: '状�?,
+    title: '状态',
     dataIndex: 'status',
     key: 'status',
     align: 'center',
@@ -170,7 +170,7 @@ const columns = reactive([
     align: 'center',
   },
   {
-    title: '手机�?,
+    title: '手机号',
     dataIndex: 'mobile',
     key: 'mobile',
     align: 'center',
@@ -208,9 +208,9 @@ const modal = reactive({
   editFlag: false,
   title: '',
   roleData: [
-    { id: '1', title: '普通用�? },
+    { id: '1', title: '普通用户' },
     { id: '2', title: '演示账号' },
-    { id: '3', title: '管理�? },
+    { id: '3', title: '管理员' },
   ],
   form: {
     id: undefined,
@@ -224,9 +224,9 @@ const modal = reactive({
   },
   rules: {
     username: [{ required: true, message: '请输入用户名', trigger: 'change' }],
-    password: [{ required: true, message: '请输入密�?, trigger: 'change' }],
+    password: [{ required: true, message: '请输入密码', trigger: 'change' }],
     role: [{ required: true, message: '请选择角色', trigger: 'change' }],
-    status: [{ required: true, message: '请选择状�?, trigger: 'change' }],
+    status: [{ required: true, message: '请选择状态', trigger: 'change' }],
   },
 });
 
@@ -574,7 +574,7 @@ const hideModal = () => {
   border-color: #66BB6A !important;
 }
 
-/* 滚动条样�?*/
+/* 滚动条样式 */
 :deep(*::-webkit-scrollbar) {
   width: 8px !important;
   height: 8px !important;
@@ -641,17 +641,42 @@ const hideModal = () => {
   padding: 10px 16px;
 }
 
-:deep(.ant-form-item-label > label) {
+:deep(.user-modal-wrap .ant-form-item-label > label) {
   font-weight: 500;
-  color: #2c3e50;
+  color: #2c3e50 !important;
+  font-size: 14px;
 }
 
-/* 修复输入框宽度问�?*/
+:deep(.user-modal-wrap .ant-form-item-label > label::after) {
+  content: '' !important;
+  margin: 0 !important;
+}
+
+:deep(.user-modal-wrap .ant-form-item-required::before) {
+  color: #ff4d4f !important;
+}
+
+:deep(.user-modal-wrap .ant-form-item) {
+  margin-bottom: 20px;
+}
+
+:deep(.user-modal-wrap .ant-modal-body) {
+  padding: 24px !important;
+}
+
+/* 修复输入框宽度问题 */
 :deep(.user-modal-wrap .ant-input),
 :deep(.user-modal-wrap .ant-input-affix-wrapper),
 :deep(.user-modal-wrap .ant-select),
 :deep(.user-modal-wrap .ant-select-selector) {
   width: 100% !important;
+  height: 40px !important;
+  border-radius: 8px !important;
+}
+
+:deep(.user-modal-wrap .ant-input),
+:deep(.user-modal-wrap .ant-input-affix-wrapper .ant-input) {
+  font-size: 14px !important;
 }
 
 :deep(.user-modal-wrap .ant-form-item-control-input) {
@@ -660,6 +685,29 @@ const hideModal = () => {
 
 :deep(.user-modal-wrap .ant-form-item-control-input-content) {
   width: 100% !important;
+}
+
+:deep(.user-modal-wrap .ant-modal-header) {
+  padding: 20px 24px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+:deep(.user-modal-wrap .ant-modal-title) {
+  font-size: 18px;
+  font-weight: 600;
+  color: #2E7D32;
+}
+
+:deep(.user-modal-wrap .ant-modal-footer) {
+  padding: 16px 24px;
+  border-top: 1px solid #f0f0f0;
+}
+
+:deep(.user-modal-wrap .ant-btn) {
+  height: 40px;
+  padding: 0 24px;
+  border-radius: 8px;
+  font-weight: 500;
 }
 
 /* 页面切换动画 */

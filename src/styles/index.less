@@ -1677,9 +1677,10 @@ div:contains("TOP") {
 }
 
 .ant-modal-body .ant-form-item-label > label {
-  color: #2E7D32 !important;
-  font-weight: 600 !important;
+  color: #1f2937 !important;
+  font-weight: 500 !important;
   font-size: 14px !important;
+  line-height: 22px !important;
 }
 
 /* 普通输入框 */
@@ -1722,15 +1723,21 @@ div:contains("TOP") {
   padding: 0 !important;
   box-shadow: none !important;
   background: transparent !important;
+  height: 100% !important;
+  line-height: 44px !important;
+  flex: 1 !important;
+  min-width: 0 !important;
 }
 
 .ant-modal-body .ant-input-affix-wrapper {
   width: 100% !important;
   height: 44px !important;
+  display: flex !important;
+  align-items: center !important;
   border-radius: 12px !important;
   border: 2px solid #E8F5E9 !important;
   background: #ffffff !important;
-  padding: 0 16px !important;
+  padding: 0 12px !important;
   transition: border-color 0.25s ease-out, box-shadow 0.25s ease-out !important;
   box-shadow: none !important;
   outline: none !important;
@@ -1769,6 +1776,83 @@ div:contains("TOP") {
   border-color: #66BB6A !important;
   box-shadow: 0 0 0 3px rgba(102, 187, 106, 0.12) !important;
   transition: border-color 0.2s ease-out, box-shadow 0.2s ease-out !important;
+}
+
+/* 修复清除按钮位置 */
+.ant-modal-body .ant-input-clear-icon {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: 44px !important;
+  line-height: 44px !important;
+  font-size: 12px !important;
+  color: rgba(0, 0, 0, 0.25) !important;
+  right: 12px !important;
+}
+
+.ant-modal-body .ant-input-affix-wrapper .ant-input-clear-icon {
+  right: 0 !important;
+  margin-right: 0 !important;
+}
+
+.ant-modal-body .ant-input-suffix {
+  display: flex !important;
+  align-items: center !important;
+  height: 44px !important;
+}
+
+/* 修复清除按钮位置 */
+.ant-modal-body .ant-input-clear-icon {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 12px !important;
+  color: rgba(0, 0, 0, 0.25) !important;
+  cursor: pointer !important;
+  flex-shrink: 0 !important;
+  width: 16px !important;
+  height: 16px !important;
+}
+
+.ant-modal-body .ant-input-affix-wrapper .ant-input-clear-icon {
+  position: relative !important;
+}
+
+.ant-modal-body .ant-input-suffix {
+  display: inline-flex !important;
+  align-items: center !important;
+  flex-shrink: 0 !important;
+  margin-left: 8px !important;
+  gap: 4px !important;
+}
+
+.ant-modal-body .ant-input-affix-wrapper .ant-input {
+  flex: 1 !important;
+  min-width: 0 !important;
+}
+
+.ant-modal-body .ant-select-clear {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  position: absolute !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  right: 32px !important;
+  font-size: 12px !important;
+  color: rgba(0, 0, 0, 0.25) !important;
+  z-index: 1 !important;
+}
+
+.ant-modal-body .ant-select-arrow {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  position: absolute !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  right: 12px !important;
+  pointer-events: none !important;
 }
 
 /* 数字输入框 */
@@ -2312,4 +2396,13 @@ div:contains("TOP") {
   border: none !important;
   box-shadow: none !important;
   outline: none !important;
+}
+
+/* 全局抽屉样式 - 确保正确定位 */
+.ant-drawer-mask {
+  z-index: 9999 !important;
+}
+
+.ant-drawer-content-wrapper {
+  z-index: 10000 !important;
 }

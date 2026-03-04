@@ -12,7 +12,6 @@
         :loading="data.loading"
         :columns="columns"
         :data-source="data.list"
-        :scroll="{ x: 'max-content' }"
         :row-selection="rowSelection"
         :pagination="{
           size: 'default',
@@ -26,13 +25,13 @@
           showSizeChanger: false,
           showQuickJumper: false,
           hideOnSinglePage: false,
-          showTotal: (total) => `�?{total}条数据`,
+          showTotal: (total) => `共${total}条数据`,
         }"
       >
         <template #bodyCell="{ record, column }">
           <template v-if="column.key === 'operation'">
             <span class="action-space">
-              <a-popconfirm title="确定删除?" ok-text="�? cancel-text="�? @confirm="confirmDelete(record)">
+              <a-popconfirm title="确定删除?" ok-text="是" cancel-text="否" @confirm="confirmDelete(record)">
                 <a class="delete-btn">删除</a>
               </a-popconfirm>
             </span>
@@ -113,7 +112,7 @@ const modal = reactive({
     link: undefined,
   },
   rules: {
-    link: [{ required: true, message: '请输入内�?, trigger: 'change' }],
+    link: [{ required: true, message: '请输入内容', trigger: 'change' }],
   },
 });
 
@@ -368,7 +367,7 @@ const handleBatchDelete = () => {
   border-color: #66BB6A !important;
 }
 
-/* 滚动条样�?*/
+/* 滚动条样式 */
 :deep(*::-webkit-scrollbar) {
   width: 8px !important;
   height: 8px !important;

@@ -7,7 +7,6 @@
         :loading="data.loading"
         :columns="columns"
         :data-source="data.dataList"
-        :scroll="{ x: 'max-content' }"
         :pagination="{
           size: 'default',
           current: data.page,
@@ -20,7 +19,7 @@
           showSizeChanger: false,
           showQuickJumper: false,
           hideOnSinglePage: false,
-          showTotal: (total) => `�?{total}条数据`,
+          showTotal: (total) => `共${total}条数据`,
         }"
       />
     </div>

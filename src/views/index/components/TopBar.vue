@@ -72,34 +72,9 @@
           <button class="login btn" @click="goLogin()">登录</button>
         </template>
 
-        <div class="right-icon" @click="msgVisible=true">
+        <div class="right-icon" @click.stop="handleMsgClick">
           <img :src="MessageIcon">
-          <span class="msg-point"></span>
-        </div>
-        <div>
-          <a-drawer title="我的消息" placement="right" :closable="true" :maskClosable="true" :visible="msgVisible"
-            @close="onClose">
-            <a-spin :spinning="loading" style="min-height: 200px;">
-              <div class="list-content">
-                <div class="notification-view">
-                  <div class="list">
-                    <div class="notification-item flex-view" v-for="item in msgData" :key="item.id">
-                      <div class="content-box">
-                        <div class="header">
-                          <span class="title-txt">{{item.title}}</span>
-                          <br />
-                          <span class="time">{{ item.create_time }}</span>
-                        </div>
-                        <div class="content">
-                          <p>{{ item.content }}</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </a-spin>
-          </a-drawer>
+          <span v-if="hasUnreadMsg && msgData.length > 0" class="msg-badge">{{ msgData.length > 99 ? '99+' : msgData.length }}</span>
         </div>
       </div>
     </div>
@@ -119,6 +94,48 @@
       </div>
     </div>
   </div>
+  
+  <a-modal
+    v-model:visible="msgVisible"
+    :footer="null"
+    :width="500"
+    :zIndex="10000"
+    :closable="true"
+    :maskClosable="true"
+    @cancel="onClose">
+    <template #title>
+      <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+        <span>我的消息</span>
+        <button 
+          type="button" 
+          class="custom-close-btn" 
+          @click.stop="msgVisible = false"
+          style="border: none; background: transparent; cursor: pointer; font-size: 20px; color: #2E7D32; padding: 4px 8px; line-height: 1;">
+          ×
+        </button>
+      </div>
+    </template>
+    <a-spin :spinning="loading" style="min-height: 200px;">
+      <div class="list-content">
+        <div class="notification-view">
+          <div class="list">
+            <div class="notification-item flex-view" v-for="item in msgData" :key="item.id">
+              <div class="content-box">
+                <div class="header">
+                  <span class="title-txt">{{item.title}}</span>
+                  <br />
+                  <span class="time">{{ item.create_time }}</span>
+                </div>
+                <div class="content">
+                  <p>{{ item.content }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </a-spin>
+  </a-modal>
 </template>
 
 <script setup lang="ts">
@@ -176,11 +193,12 @@
     }, 50)
   })
 
-  let loading = ref(false)
-  let msgVisible = ref(false)
-  let msgData = ref([])
+  const loading = ref(false)
+  const msgVisible = ref(false)
+  const msgData = ref<any[]>([])
   const userMenuVisible = ref(false)
   const userAvatar = ref(AvatarIcon)
+  const hasUnreadMsg = ref(false) // 是否有未读消息
 
   const handleGlobalKeydown = (event) => {
     if (event.key === '/' && document.activeElement?.tagName !== 'INPUT') {
@@ -216,6 +234,15 @@
     listApi({}).then(res => {
       msgData.value = res.data
       loading.value = false
+      // 检查是否有未读消息
+      const lastReadTime = localStorage.getItem('last_msg_read_time')
+      if (!lastReadTime) {
+        // 从未读过，有消息就显示
+        hasUnreadMsg.value = msgData.value.length > 0
+      } else {
+        // 已经读过，不显示徽章
+        hasUnreadMsg.value = false
+      }
     }).catch(err => {
       console.log(err)
       loading.value = false
@@ -301,7 +328,14 @@
   }
   
   const onClose = () => {
-    msgVisible.value = false;
+    msgVisible.value = false
+  }
+  
+  const handleMsgClick = () => {
+    msgVisible.value = true
+    // 标记为已读
+    hasUnreadMsg.value = false
+    localStorage.setItem('last_msg_read_time', new Date().toISOString())
   }
   
   const handleJoin = () => {
@@ -649,27 +683,35 @@
     height: 20px;
   }
 
-  .right-view .right-icon .msg-point {
+  .right-view .right-icon .msg-badge {
     position: absolute;
-    right: 4px;
-    top: 4px;
-    width: 8px;
-    height: 8px;
+    right: -6px;
+    top: -6px;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
     background: linear-gradient(135deg, #FF6B6B 0%, #FF5252 100%);
-    border-radius: 50%;
+    border-radius: 9px;
     border: 2px solid #ffffff;
-    box-shadow: 0 0 12px rgba(255, 82, 82, 0.6);
-    animation: pulse-dot 2s ease-in-out infinite;
+    box-shadow: 0 2px 8px rgba(255, 82, 82, 0.4);
+    font-size: 11px;
+    font-weight: 600;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    animation: pulse-badge 2s ease-in-out infinite;
   }
 
-  @keyframes pulse-dot {
+  @keyframes pulse-badge {
     0%, 100% {
       transform: scale(1);
       opacity: 1;
     }
     50% {
-      transform: scale(1.2);
-      opacity: 0.8;
+      transform: scale(1.1);
+      opacity: 0.9;
     }
   }
 
@@ -843,5 +885,151 @@
 
   .location-tip i {
     color: #FFA726;
+  }
+
+  /* 消息弹窗样式 */
+  :deep(.ant-modal) {
+    top: 50px;
+  }
+
+  :deep(.ant-modal-content) {
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  :deep(.ant-modal-mask) {
+    animation-duration: 0.15s !important;
+  }
+
+  :deep(.ant-modal-wrap) {
+    animation-duration: 0.15s !important;
+  }
+
+  :deep(.ant-zoom-enter),
+  :deep(.ant-zoom-appear) {
+    animation-duration: 0.15s !important;
+  }
+
+  :deep(.ant-zoom-leave) {
+    animation-duration: 0.1s !important;
+  }
+
+  :deep(.ant-modal-header) {
+    background: linear-gradient(135deg, #E8F5E9 0%, #F1F8E9 100%);
+    border-bottom: 1px solid rgba(102, 187, 106, 0.2);
+    padding: 16px 24px;
+  }
+
+  :deep(.ant-modal-title) {
+    color: #2E7D32;
+    font-weight: 600;
+    font-size: 16px;
+  }
+
+  :deep(.ant-modal-close) {
+    display: block !important;
+    top: 16px;
+    right: 16px;
+    width: 32px;
+    height: 32px;
+  }
+
+  :deep(.ant-modal-close-x) {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    font-size: 16px;
+    color: #2E7D32;
+    transition: all 0.2s ease;
+  }
+
+  :deep(.ant-modal-close-x::before) {
+    content: '×';
+    font-size: 24px;
+    font-weight: 300;
+  }
+
+  :deep(.ant-modal-close:hover .ant-modal-close-x) {
+    color: #66BB6A;
+    background: rgba(102, 187, 106, 0.1);
+    border-radius: 50%;
+  }
+
+  .custom-close-btn:hover {
+    background: rgba(102, 187, 106, 0.15) !important;
+    border-radius: 50% !important;
+    transform: scale(1.1);
+    transition: all 0.15s ease;
+  }
+
+  .custom-close-btn:active {
+    transform: scale(0.95);
+    transition: all 0.1s ease;
+  }
+
+  :deep(.ant-modal-body) {
+    padding: 16px;
+    max-height: 60vh;
+    overflow-y: auto;
+  }
+
+  .list-content {
+    padding: 0;
+  }
+
+  .notification-view {
+    width: 100%;
+  }
+
+  .notification-view .list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .notification-item {
+    padding: 16px;
+    background: #F1F8E9;
+    border-radius: 12px;
+    border: 1px solid rgba(102, 187, 106, 0.15);
+    transition: all 0.2s ease;
+  }
+
+  .notification-item:hover {
+    background: #ffffff;
+    border-color: rgba(102, 187, 106, 0.3);
+    box-shadow: 0 4px 12px rgba(102, 187, 106, 0.15);
+  }
+
+  .notification-item .content-box {
+    width: 100%;
+  }
+
+  .notification-item .header {
+    margin-bottom: 8px;
+  }
+
+  .notification-item .title-txt {
+    font-size: 15px;
+    font-weight: 600;
+    color: #2E7D32;
+  }
+
+  .notification-item .time {
+    font-size: 12px;
+    color: rgba(46, 125, 50, 0.6);
+  }
+
+  .notification-item .content {
+    font-size: 14px;
+    color: rgba(28, 34, 51, 0.75);
+    line-height: 1.6;
+  }
+
+  .notification-item .content p {
+    margin: 0;
   }
 </style>
