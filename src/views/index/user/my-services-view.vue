@@ -123,7 +123,7 @@ const editService = (service) => {
 };
 
 const viewDetail = (serviceId) => {
-  router.push({ name: 'detail', params: { id: serviceId } });
+  router.push({ name: 'detail', query: { id: serviceId } });
 };
 </script>
 

@@ -33,7 +33,7 @@
           },
           showSizeChanger: false,
           showQuickJumper: false,
-          showTotal: (total) => `共 ${total} 条数据`,
+          showTotal: (total) => `共${total} 条数据`,
         }"
       >
         <template #bodyCell="{ text, record, column }">
@@ -43,7 +43,7 @@
           <template v-else-if="column.key === 'operation'">
             <span class="action-space">
               <a class="operation-btn" @click="handleEdit(record)">编辑</a>
-              <a-popconfirm title="确定删除？" ok-text="是" cancel-text="否" @confirm="confirmDelete(record)">
+              <a-popconfirm title="确定删除?" ok-text="是" cancel-text="否" @confirm="confirmDelete(record)">
                 <a class="delete-btn">删除</a>
               </a-popconfirm>
             </span>
@@ -51,25 +51,33 @@
         </template>
       </a-table>
     </div>
+  </div>
 
+  <teleport to="body">
     <a-modal
-      :visible="modal.visile"
+      v-model:visible="modal.visible"
       :forceRender="true"
       :title="modal.title"
       ok-text="确认"
       cancel-text="取消"
-      width="760px"
+      width="520px"
+      :maskClosable="true"
+      :keyboard="true"
+      :destroyOnClose="false"
+      wrapClassName="thing-modal-wrap"
+      :bodyStyle="{ maxHeight: '55vh', overflowY: 'auto', padding: '20px' }"
+      centered
       @cancel="handleCancel"
       @ok="handleOk"
     >
-      <a-form ref="myform" :label-col="{ style: { width: '90px' } }" :model="modal.form" :rules="modal.rules">
-        <a-row :gutter="24">
-          <a-col :span="12">
+      <a-form ref="myform" :label-col="{ style: { width: '80px' } }" :model="modal.form" :rules="modal.rules">
+        <a-row :gutter="0">
+          <a-col :span="24">
             <a-form-item label="服务名称" name="title">
               <a-input placeholder="请输入服务名称" v-model:value="modal.form.title" />
             </a-form-item>
           </a-col>
-          <a-col :span="12">
+          <a-col :span="24">
             <a-form-item label="分类" name="classificationId">
               <a-select placeholder="请选择分类" allowClear v-model:value="modal.form.classificationId">
                 <a-select-option v-for="item in modal.cData" :key="item.id" :value="item.id">
@@ -78,7 +86,7 @@
               </a-select>
             </a-form-item>
           </a-col>
-          <a-col :span="12">
+          <a-col :span="24">
             <a-form-item label="标签">
               <a-select mode="multiple" placeholder="请选择标签" allowClear v-model:value="modal.form.tags">
                 <a-select-option v-for="item in modal.tagData" :key="item.id" :value="item.id">
@@ -87,27 +95,27 @@
               </a-select>
             </a-form-item>
           </a-col>
-          <a-col :span="12">
+          <a-col :span="24">
             <a-form-item label="价格" name="price">
               <a-input-number style="width: 100%" placeholder="请输入价格" v-model:value="modal.form.price" />
             </a-form-item>
           </a-col>
-          <a-col :span="12">
+          <a-col :span="24">
             <a-form-item label="年龄">
               <a-input placeholder="请输入年龄" v-model:value="modal.form.age" />
             </a-form-item>
           </a-col>
-          <a-col :span="12">
+          <a-col :span="24">
             <a-form-item label="性别">
               <a-input placeholder="请输入性别" v-model:value="modal.form.sex" />
             </a-form-item>
           </a-col>
-          <a-col :span="12">
+          <a-col :span="24">
             <a-form-item label="地区">
               <a-input placeholder="请输入地区" v-model:value="modal.form.location" />
             </a-form-item>
           </a-col>
-          <a-col :span="12">
+          <a-col :span="24">
             <a-form-item label="状态" name="status">
               <a-select placeholder="请选择状态" allowClear v-model:value="modal.form.status">
                 <a-select-option value="0">上架</a-select-option>
@@ -115,7 +123,7 @@
               </a-select>
             </a-form-item>
           </a-col>
-          <a-col :span="12">
+          <a-col :span="24">
             <a-form-item label="联系电话">
               <a-input placeholder="请输入联系电话" v-model:value="modal.form.mobile" />
             </a-form-item>
@@ -126,7 +134,7 @@
             </a-form-item>
           </a-col>
           <a-col :span="24">
-            <a-form-item label="封面图">
+            <a-form-item label="封面">
               <a-upload-dragger name="file" accept="image/*" :multiple="false" :before-upload="beforeUpload">
                 <div class="upload-slot">
                   <FileImageOutlined class="upload-icon" />
@@ -141,7 +149,7 @@
         </a-row>
       </a-form>
     </a-modal>
-  </div>
+  </teleport>
 </template>
 
 <script setup lang="ts">
@@ -241,7 +249,7 @@ const data = reactive({
 });
 
 const modal = reactive({
-  visile: false,
+  visible: false,
   editFlag: false,
   title: '',
   cData: [] as any[],
@@ -332,7 +340,7 @@ const rowSelection = ref({
 
 const handleAdd = () => {
   resetModal();
-  modal.visile = true;
+  modal.visible = true;
   modal.editFlag = false;
   modal.title = '新增';
   for (const key in modal.form) {
@@ -345,7 +353,7 @@ const handleAdd = () => {
 
 const handleEdit = (record: any) => {
   resetModal();
-  modal.visile = true;
+  modal.visible = true;
   modal.editFlag = true;
   modal.title = '编辑';
   for (const key in modal.form) {
@@ -452,9 +460,59 @@ const resetModal = () => {
 };
 
 const hideModal = () => {
-  modal.visile = false;
+  modal.visible = false;
 };
 </script>
+
+<style lang="less">
+/* 全局样式 - 模态框强制居中 */
+.thing-modal-wrap {
+  position: fixed !important;
+  top: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  overflow: auto !important;
+  outline: 0 !important;
+  z-index: 1000 !important;
+  pointer-events: none !important;
+}
+
+.thing-modal-wrap > * {
+  pointer-events: auto !important;
+}
+
+.thing-modal-wrap .ant-modal {
+  position: relative !important;
+  top: 100px !important;
+  width: 520px !important;
+  max-width: calc(100vw - 32px) !important;
+  margin: 0 auto 100px !important;
+  padding-bottom: 0 !important;
+}
+
+/* 多选标签横向排�?*/
+.thing-modal-wrap .ant-select-selection-overflow {
+  flex-direction: row !important;
+  flex-wrap: wrap !important;
+  max-height: 100px !important;
+  overflow-y: auto !important;
+}
+
+.thing-modal-wrap .ant-select-selection-overflow-item {
+  display: inline-flex !important;
+  flex: 0 0 auto !important;
+  margin-right: 4px !important;
+  margin-bottom: 4px !important;
+}
+
+.thing-modal-wrap .ant-select-multiple .ant-select-selector {
+  padding: 4px 8px !important;
+  min-height: 40px !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+}
+</style>
 
 <style scoped lang="less">
 @import '/@/styles/theme.less';
@@ -601,21 +659,7 @@ const hideModal = () => {
 }
 
 :deep(.ant-table-tbody > tr) {
-  transition: all 0.2s ease;
-}
-
-:deep(.ant-table-tbody > tr:hover > td) {
-  background: linear-gradient(135deg, #FFF9E6 0%, #FFFEF7 100%) !important;
-  box-shadow: 0 4px 12px rgba(255, 167, 38, 0.1) !important;
-}
-
-:deep(.ant-table-tbody > tr.ant-table-row-selected > td) {
-  background: rgba(255, 249, 230, 0.5) !important;
-  border-bottom: 1px solid #F1F8E9 !important;
-}
-
-:deep(.ant-table-tbody > tr.ant-table-row-selected:hover > td) {
-  background: linear-gradient(135deg, #FFF9E6 0%, #FFFEF7 100%) !important;
+  transition: all 0.25s ease-out !important;
 }
 
 :deep(.ant-table-tbody > tr > td) {
@@ -624,6 +668,12 @@ const hideModal = () => {
   color: #374151;
   font-size: 14px;
   line-height: 1.6;
+  transition: all 0.25s ease-out !important;
+}
+
+:deep(.ant-table-tbody > tr:hover > td) {
+  background: linear-gradient(135deg, #FFF9E6 0%, #FFFEF7 100%) !important;
+  box-shadow: 0 4px 12px rgba(255, 167, 38, 0.1) !important;
 }
 
 :deep(.ant-table-tbody > tr > td a) {
@@ -708,6 +758,27 @@ const hideModal = () => {
   display: block;
 }
 
+/* 模态框强制居中样式 */
+.thing-modal-wrap {
+  position: fixed !important;
+  top: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  overflow: auto !important;
+  outline: 0 !important;
+  z-index: 1000 !important;
+}
+
+.thing-modal-wrap .ant-modal {
+  position: relative !important;
+  top: 100px !important;
+  width: auto !important;
+  max-width: calc(100vw - 32px) !important;
+  margin: 0 auto 100px !important;
+  padding-bottom: 0 !important;
+}
+
 :deep(.ant-modal-header) {
   background: #ffffff;
   border-bottom: 1px solid #f0f0f0;
@@ -729,24 +800,31 @@ const hideModal = () => {
   padding: 24px;
 }
 
+:deep(.ant-modal-body .ant-select-selection-overflow) {
+  flex-wrap: wrap !important;
+  max-height: 100px !important;
+  overflow-y: auto !important;
+}
+
+:deep(.ant-modal-body .ant-select-selection-overflow-item) {
+  display: inline-flex !important;
+  margin-right: 4px !important;
+  margin-bottom: 4px !important;
+}
+
+:deep(.ant-modal-body .ant-select-multiple .ant-select-selector) {
+  padding: 4px !important;
+  min-height: 40px !important;
+}
+
+:deep(.ant-modal-footer) {
+  border-top: 1px solid #f0f0f0;
+  padding: 10px 16px;
+}
+
 :deep(.ant-form-item-label > label) {
   font-weight: 500;
   color: #2c3e50;
-}
-
-:deep(.ant-input),
-:deep(.ant-input-number),
-:deep(.ant-select-selector),
-:deep(.ant-picker) {
-  border-radius: 8px;
-  border-color: #e0e0e0;
-}
-
-:deep(.ant-input:focus),
-:deep(.ant-input-number:focus),
-:deep(.ant-select-focused .ant-select-selector) {
-  border-color: #FFA726 !important;
-  box-shadow: 0 0 0 2px rgba(255, 167, 38, 0.1) !important;
 }
 
 :deep(.ant-upload-drag) {
@@ -759,7 +837,7 @@ const hideModal = () => {
   border-color: #FFA726 !important;
 }
 
-/* 滚动条样式 */
+/* 滚动条样�?*/
 :deep(*::-webkit-scrollbar) {
   width: 8px !important;
   height: 8px !important;
@@ -777,5 +855,39 @@ const hideModal = () => {
 
 :deep(*::-webkit-scrollbar-thumb:hover) {
   background: linear-gradient(135deg, #5CB860, #FF9800) !important;
+}
+
+/* 页面切换动画 */
+.page-surface {
+  animation: pageSlide 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes pageSlide {
+  0% {
+    opacity: 0;
+    transform: translateX(30px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+/* 修复分页文字显示 */
+:deep(.ant-pagination) {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+:deep(.ant-pagination-total-text) {
+  margin-right: 8px;
+  color: #2E7D32;
+  font-weight: 500;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 </style>

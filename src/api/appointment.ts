@@ -1,77 +1,44 @@
-import { get, post } from '/@/utils/http/axios';
+import {get, post} from '/@/utils/http/axios';
 
-/**
- * 预约 API 客户端模块
- * 封装预约时间选择相关的后端接口调用
- */
-
-/**
- * 获取指定日期的可用时间段
- * @param date 日期 (格式: yyyy-MM-dd)
- * @param thingId 服务ID
- * @returns Promise<TimeSlotDTO[]>
- */
-export function getAvailableSlots(date: string, thingId: string) {
-  return get({
-    url: '/api/appointment/availableSlots',
-    params: { date, thingId },
-    timeout: 10000, // 10秒超时
-  });
+enum URL {
+    list = '/api/appointment/admin/list',
+    updateStatus = '/api/appointment/updateStatus',
+    getAvailableSlots = '/api/appointment/availableSlots',
+    create = '/api/appointment/create',
+    userList = '/api/appointment/list',
+    receivedList = '/api/appointment/received',
 }
 
-/**
- * 创建预约
- * @param appointmentData 预约数据
- * @returns Promise<{appointmentId: string, appointmentNumber: string}>
- */
-export function createAppointment(appointmentData: {
-  thingId: string;
-  appointmentDate: string;
-  slotId: string;
-  receiverName: string;
-  receiverPhone: string;
-  receiverAddress: string;
-  remark?: string;
-}) {
-  return post({
-    url: '/api/appointment/create',
-    params: appointmentData,
-    timeout: 10000,
-  });
-}
+const listApi = async (params: any) =>
+    get<any>({url: URL.list, params: params, data: {}, headers: {}});
 
-/**
- * 获取用户的预约列表
- * @returns Promise<Appointment[]>
- */
-export function getUserAppointments() {
-  return get({
-    url: '/api/appointment/list',
-    timeout: 10000,
-  });
-}
+const updateStatusApi = async (data: any) =>
+    post<any>({url: URL.updateStatus, params: {}, data: data, headers: {}});
 
-/**
- * 获取收到的预约列表
- * @returns Promise<Appointment[]>
- */
-export function getReceivedAppointments() {
-  return get({
-    url: '/api/appointment/received',
-    timeout: 10000,
-  });
-}
+const getAvailableSlots = async (params: any) =>
+    get<any>({url: URL.getAvailableSlots, params: params, data: {}, headers: {}});
 
-/**
- * 更新预约状态
- * @param appointmentId 预约ID
- * @param status 新状态 (0:待服务, 1:已完成, 2:已取消, 3:已拒绝)
- * @returns Promise<any>
- */
-export function updateAppointmentStatus(appointmentId: string, status: string) {
-  return post({
-    url: '/api/appointment/updateStatus',
-    params: { appointmentId, status },
-    timeout: 10000,
-  });
-}
+const createAppointment = async (data: any) => {
+    const formData = new FormData();
+    Object.keys(data).forEach(key => {
+        if (data[key] !== undefined && data[key] !== null) {
+            formData.append(key, data[key]);
+        }
+    });
+    return post<any>({url: URL.create, params: {}, data: formData, headers: {}});
+};
+
+const getUserAppointments = async () =>
+    get<any>({url: URL.userList, params: {}, data: {}, headers: {}});
+
+const getReceivedAppointments = async () =>
+    get<any>({url: URL.receivedList, params: {}, data: {}, headers: {}});
+
+const updateAppointmentStatus = async (appointmentId: string, status: string) => {
+    const formData = new FormData();
+    formData.append('appointmentId', appointmentId);
+    formData.append('status', status);
+    return post<any>({url: URL.updateStatus, params: {}, data: formData, headers: {}});
+};
+
+export {listApi, updateStatusApi, getAvailableSlots, createAppointment, getUserAppointments, getReceivedAppointments, updateAppointmentStatus};

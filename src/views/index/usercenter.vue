@@ -340,10 +340,13 @@
   transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
   position: relative;
   overflow: visible;
+  white-space: nowrap;
 }
 
 :deep(.user-menu .ant-menu-item span) {
   color: #2E7D32 !important;
+  white-space: nowrap;
+  overflow: visible;
 }
 
 :deep(.user-menu .ant-menu-item .anticon) {

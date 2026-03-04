@@ -27,7 +27,7 @@
           showSizeChanger: false,
           showQuickJumper: false,
           hideOnSinglePage: false,
-          showTotal: (total) => `共${total}条数据`,
+          showTotal: (total) => `�?{total}条数据`,
         }"
       >
         <template #bodyCell="{ text, record, column }">
@@ -37,7 +37,7 @@
           <template v-else-if="column.key === 'operation'">
             <span class="action-space">
               <a class="operation-btn" @click="handleEdit(record)">编辑</a>
-              <a-popconfirm title="确定删除?" ok-text="是" cancel-text="否" @confirm="confirmDelete(record)">
+              <a-popconfirm title="确定删除?" ok-text="�? cancel-text="�? @confirm="confirmDelete(record)">
                 <a class="delete-btn">删除</a>
               </a-popconfirm>
             </span>
@@ -58,20 +58,20 @@
       <a-form ref="myform" :label-col="{ style: { width: '80px' } }" :model="modal.form" :rules="modal.rules">
         <a-row :gutter="24">
           <a-col span="24">
-            <a-form-item label="广告图">
+            <a-form-item label="广告�?>
               <a-upload-dragger
                 name="file"
                 accept="image/*"
                 :multiple="false"
                 :before-upload="beforeUpload"
               >
-                <p class="ant-upload-text">点击或拖拽上传图片</p>
+                <p class="ant-upload-text">点击或拖拽上传图�?/p>
               </a-upload-dragger>
             </a-form-item>
           </a-col>
           <a-col span="24">
             <a-form-item label="跳转链接" name="link">
-              <a-input placeholder="请输入跳转链接" v-model:value="modal.form.link" />
+              <a-input placeholder="请输入跳转链�? v-model:value="modal.form.link" />
             </a-form-item>
           </a-col>
         </a-row>
@@ -145,7 +145,7 @@ const modal = reactive({
     link: undefined as any,
   },
   rules: {
-    link: [{ required: true, message: '请输入跳转链接', trigger: 'change' }],
+    link: [{ required: true, message: '请输入跳转链�?, trigger: 'change' }],
   },
 });
 
@@ -385,7 +385,6 @@ const hideModal = () => {
 
 :deep(.ant-table-tbody > tr:hover) {
   background: linear-gradient(135deg, #FFF9E6 0%, #FFFEF7 100%) !important;
-  transform: scale(1.01);
   box-shadow: 0 4px 12px rgba(255, 167, 38, 0.1);
 }
 
@@ -478,7 +477,7 @@ const hideModal = () => {
   border-color: #66BB6A !important;
 }
 
-/* 滚动条样式 */
+/* 滚动条样�?*/
 :deep(*::-webkit-scrollbar) {
   width: 8px !important;
   height: 8px !important;
@@ -504,6 +503,40 @@ const hideModal = () => {
   object-fit: cover;
   border-radius: 6px;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
+}
+
+/* 页面切换动画 */
+.page-surface {
+  animation: pageSlide 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes pageSlide {
+  0% {
+    opacity: 0;
+    transform: translateX(30px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+/* 修复分页文字显示 */
+:deep(.ant-pagination) {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+:deep(.ant-pagination-total-text) {
+  margin-right: 8px;
+  color: #2E7D32;
+  font-weight: 500;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 </style>
 

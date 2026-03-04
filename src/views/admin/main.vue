@@ -34,7 +34,7 @@
         </a-menu-item>
         <a-menu-item key="order">
           <dollar-outlined />
-          <span>订单管理</span>
+          <span>预约管理</span>
         </a-menu-item>
         <a-menu-item key="user">
           <user-outlined />
@@ -94,11 +94,7 @@
         </div>
       </a-layout-header>
       <a-layout-content class="admin-content">
-        <router-view v-slot="{ Component }">
-          <transition name="fade-transform" mode="out-in">
-            <component :is="Component" />
-          </transition>
-        </router-view>
+        <router-view :key="$route.fullPath" class="route-view"></router-view>
       </a-layout-content>
     </a-layout>
   </a-layout>
@@ -150,7 +146,7 @@ const getPageTitle = (name) => {
     classification: '服务管理',
     tag: '标签管理',
     comment: '评论管理',
-    order: '订单管理',
+    order: '预约管理',
     user: '用户管理',
     ad: '广告管理',
     notice: '通知公告',
@@ -471,6 +467,7 @@ const handleLogout = () => {
   white-space: nowrap;
   overflow: visible !important;
   text-overflow: clip !important;
+  min-width: 0;
 }
 
 :deep(.ant-menu-dark .ant-menu-sub .ant-menu-item span) {
@@ -479,6 +476,8 @@ const handleLogout = () => {
   overflow: visible !important;
   text-overflow: clip !important;
   color: #2E7D32 !important;
+  min-width: 0;
+  flex-shrink: 1;
 }
 
 :deep(.ant-menu-dark .ant-menu-sub .ant-menu-item .anticon) {
@@ -540,6 +539,24 @@ const handleLogout = () => {
   padding: 24px 16px;
   background: transparent;
   overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* 页面切换动画 - 简洁丝滑 */
+.route-view {
+  animation: pageSlide 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes pageSlide {
+  0% {
+    opacity: 0;
+    transform: translateX(30px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
 }
 
 .header-left {
@@ -642,6 +659,36 @@ const handleLogout = () => {
   transform: translateX(40px) scale(0.95);
 }
 
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.fade-enter-from {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.fade-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+.slide-enter-active,
+.slide-leave-active {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.slide-enter-from {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+.slide-leave-to {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+
 :deep(#components-layout-demo-custom-trigger .ant-layout-content) {
   padding-top: 0 !important;
   background: transparent !important;
@@ -678,7 +725,6 @@ const handleLogout = () => {
 
 :deep(.ant-table-tbody > tr:hover) {
   background: linear-gradient(135deg, #FFF9E6 0%, #FFFEF7 100%) !important;
-  transform: scale(1.01);
   box-shadow: 0 4px 12px rgba(255, 167, 38, 0.1);
 }
 

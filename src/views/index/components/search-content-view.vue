@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <div class="search-result-view">
     <div class="search-header">
       <h1 class="search-title">搜索结果</h1>
@@ -13,7 +13,7 @@
         <div class="result-card" v-for="item in tData.pageData" :key="item.id" @click="handleDetail(item)">
           <div class="card-image">
             <img :src="item.cover" :alt="item.title">
-            <div class="price-badge">￥{{ item.price }}<span>/时</span></div>
+            <div class="price-badge">¥{{ item.price }}<span>/时</span></div>
           </div>
           <div class="card-body">
             <h3 class="card-title">{{ item.title }}</h3>
@@ -70,7 +70,7 @@ onMounted(() => {
   search()
 })
 
-// 监听query参数
+// ����query����
 watch(() => route.query, (newPath, oldPath) => {
   search()
 }, {immediate: false});
@@ -99,7 +99,8 @@ const getThingList = (data) => {
         item.cover = BASE_URL + '/api/staticfiles/image/' + item.cover
       }
     })
-    tData.thingData = res.data
+    // 只显示已上架的服务 (status='0')
+    tData.thingData = res.data.filter(item => item.status === '0')
     tData.total = tData.thingData.length
     changePage(1)
     tData.loading = false
@@ -328,21 +329,3 @@ const getThingList = (data) => {
   border-color: #66BB6A;
 }
 </style>
-
-.a-price-symbol {
-  top: -0.5em;
-  font-size: 12px;
-}
-
-.a-price {
-  color: @secondary-color;
-  font-size: 14px;
-}
-
-</style>
-
-
-
-
-
-

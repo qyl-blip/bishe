@@ -174,55 +174,63 @@
     </div>
 
     <!-- 时间选择器组件 -->
-    <TimeSelector
-      v-model:visible="showTimeSelector"
-      :thing-id="thingId"
-      @confirm="handleTimeSelection"
-      @cancel="showTimeSelector = false"
-    />
+    <teleport to="body">
+      <TimeSelector
+        v-model:visible="showTimeSelector"
+        :thing-id="thingId"
+        @confirm="handleTimeSelection"
+        @cancel="showTimeSelector = false"
+      />
+    </teleport>
 
     <!-- 预约信息表单 -->
-    <AppointmentForm
-      v-model:visible="showAppointmentForm"
-      :appointment-data="selectedAppointment"
-      @confirm="handleAppointmentSubmit"
-      @cancel="showAppointmentForm = false"
-      ref="appointmentFormRef"
-    />
+    <teleport to="body">
+      <AppointmentForm
+        v-model:visible="showAppointmentForm"
+        :appointment-data="selectedAppointment"
+        @confirm="handleAppointmentSubmit"
+        @cancel="showAppointmentForm = false"
+        ref="appointmentFormRef"
+      />
+    </teleport>
 
     <!-- 预约成功提示弹窗 -->
-    <div v-if="showSuccessModal" class="custom-modal-overlay" @click="showSuccessModal = false">
-      <div class="custom-modal success-modal" @click.stop>
-        <h2 class="modal-title">预约成功！</h2>
-        <div class="modal-content">
-          <div class="info-item">
-            <span class="info-label">预约编号</span>
-            <span class="info-value">{{ successModalData.appointmentNumber }}</span>
+    <teleport to="body">
+      <div v-if="showSuccessModal" class="custom-modal-overlay" @click="showSuccessModal = false">
+        <div class="custom-modal success-modal" @click.stop>
+          <h2 class="modal-title">预约成功！</h2>
+          <div class="modal-content">
+            <div class="info-item">
+              <span class="info-label">预约编号</span>
+              <span class="info-value">{{ successModalData.appointmentNumber }}</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">预约日期</span>
+              <span class="info-value">{{ successModalData.date }}</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">预约时间</span>
+              <span class="info-value">{{ successModalData.timeSlot }}</span>
+            </div>
+            <p class="modal-tip">请保存好您的预约编号，稍后可在"我的预约"中查看详情。</p>
           </div>
-          <div class="info-item">
-            <span class="info-label">预约日期</span>
-            <span class="info-value">{{ successModalData.date }}</span>
-          </div>
-          <div class="info-item">
-            <span class="info-label">预约时间</span>
-            <span class="info-value">{{ successModalData.timeSlot }}</span>
-          </div>
-          <p class="modal-tip">请保存好您的预约编号，稍后可在"我的预约"中查看详情。</p>
+          <button class="modal-btn success-btn" @click="showSuccessModal = false">确定</button>
         </div>
-        <button class="modal-btn success-btn" @click="showSuccessModal = false">确定</button>
       </div>
-    </div>
+    </teleport>
 
     <!-- 预约失败提示弹窗 -->
-    <div v-if="showErrorModal" class="custom-modal-overlay" @click="showErrorModal = false">
-      <div class="custom-modal error-modal" @click.stop>
-        <h2 class="modal-title">预约失败</h2>
-        <div class="modal-content">
-          <p class="error-message">{{ errorMessage }}</p>
+    <teleport to="body">
+      <div v-if="showErrorModal" class="custom-modal-overlay" @click="showErrorModal = false">
+        <div class="custom-modal error-modal" @click.stop>
+          <h2 class="modal-title">预约失败</h2>
+          <div class="modal-content">
+            <p class="error-message">{{ errorMessage }}</p>
+          </div>
+          <button class="modal-btn error-btn" @click="showErrorModal = false">确定</button>
         </div>
-        <button class="modal-btn error-btn" @click="showErrorModal = false">确定</button>
       </div>
-    </div>
+    </teleport>
 
     <Footer/>
   </div>
@@ -1617,6 +1625,22 @@ const sortCommentList =(sortType)=> {
 
 .recommend-horizontal .thing-item-horizontal .info-view .a-price-symbol {
   color: #66BB6A;
+}
+
+/* 页面切换动画 */
+.page-surface {
+  animation: pageSlide 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes pageSlide {
+  0% {
+    opacity: 0;
+    transform: translateX(30px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
 }
 </style>
 

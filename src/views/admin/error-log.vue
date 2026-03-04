@@ -20,7 +20,7 @@
           showSizeChanger: false,
           showQuickJumper: false,
           hideOnSinglePage: false,
-          showTotal: (total) => `共${total}条数据`,
+          showTotal: (total) => `�?{total}条数据`,
         }"
       />
     </div>
@@ -144,7 +144,6 @@ const getDataList = () => {
 
 :deep(.ant-table-tbody > tr:hover) {
   background: linear-gradient(135deg, #FFF9E6 0%, #FFFEF7 100%) !important;
-  transform: scale(1.01);
   box-shadow: 0 4px 12px rgba(255, 167, 38, 0.1);
 }
 
@@ -184,6 +183,40 @@ const getDataList = () => {
 
 :deep(.ant-pagination-item-active a) {
   color: #ffffff;
+}
+
+/* 页面切换动画 */
+.page-surface {
+  animation: pageSlide 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes pageSlide {
+  0% {
+    opacity: 0;
+    transform: translateX(30px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+/* 修复分页文字显示 */
+:deep(.ant-pagination) {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+:deep(.ant-pagination-total-text) {
+  margin-right: 8px;
+  color: #2E7D32;
+  font-weight: 500;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 </style>
 

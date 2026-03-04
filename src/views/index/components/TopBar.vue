@@ -402,6 +402,12 @@
     color: #1c2233;
     background: transparent;
     font-size: 14px;
+    outline: none;
+  }
+  
+  .search-entry input:focus {
+    outline: none;
+    border: none;
   }
 
   .search-entry .clear-btn {

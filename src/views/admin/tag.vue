@@ -27,14 +27,14 @@
           showSizeChanger: false,
           showQuickJumper: false,
           hideOnSinglePage: false,
-          showTotal: (total) => `共${total}条数据`,
+          showTotal: (total) => `�?{total}条数据`,
         }"
       >
         <template #bodyCell="{ record, column }">
           <template v-if="column.key === 'operation'">
             <span class="action-space">
               <a class="operation-btn" @click="handleEdit(record)">编辑</a>
-              <a-popconfirm title="确定删除?" ok-text="是" cancel-text="否" @confirm="confirmDelete(record)">
+              <a-popconfirm title="确定删除?" ok-text="�? cancel-text="�? @confirm="confirmDelete(record)">
                 <a class="delete-btn">删除</a>
               </a-popconfirm>
             </span>
@@ -56,7 +56,7 @@
         <a-row :gutter="24">
           <a-col span="24">
             <a-form-item label="标签名称" name="title">
-              <a-input placeholder="请输入标签名称" v-model:value="modal.form.title"></a-input>
+              <a-input placeholder="请输入标签名�? v-model:value="modal.form.title"></a-input>
             </a-form-item>
           </a-col>
         </a-row>
@@ -112,7 +112,7 @@ const modal = reactive({
     title: undefined,
   },
   rules: {
-    title: [{ required: true, message: '请输入标签名称', trigger: 'change' }],
+    title: [{ required: true, message: '请输入标签名�?, trigger: 'change' }],
   },
 });
 
@@ -346,7 +346,6 @@ const hideModal = () => {
 
 :deep(.ant-table-tbody > tr:hover) {
   background: linear-gradient(135deg, #FFF9E6 0%, #FFFEF7 100%) !important;
-  transform: scale(1.01);
   box-shadow: 0 4px 12px rgba(255, 167, 38, 0.1);
 }
 
@@ -448,7 +447,7 @@ const hideModal = () => {
   border-color: #66BB6A !important;
 }
 
-/* 滚动条样式 */
+/* 滚动条样�?*/
 :deep(*::-webkit-scrollbar) {
   width: 8px !important;
   height: 8px !important;
@@ -466,6 +465,40 @@ const hideModal = () => {
 
 :deep(*::-webkit-scrollbar-thumb:hover) {
   background: linear-gradient(135deg, #5CB860, #FF9800) !important;
+}
+
+/* 页面切换动画 */
+.page-surface {
+  animation: pageSlide 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes pageSlide {
+  0% {
+    opacity: 0;
+    transform: translateX(30px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+/* 修复分页文字显示 */
+:deep(.ant-pagination) {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+:deep(.ant-pagination-total-text) {
+  margin-right: 8px;
+  color: #2E7D32;
+  font-weight: 500;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 </style>
 

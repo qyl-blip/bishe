@@ -3,7 +3,6 @@
     <div class="page-view page-view--comment">
       <div class="table-operations">
         <a-space>
-          <a-button type="primary" @click="handleAdd">模拟新增</a-button>
           <a-button @click="handleBatchDelete">批量删除</a-button>
         </a-space>
       </div>
@@ -27,13 +26,13 @@
           showSizeChanger: false,
           showQuickJumper: false,
           hideOnSinglePage: false,
-          showTotal: (total) => `共${total}条数据`,
+          showTotal: (total) => `�?{total}条数据`,
         }"
       >
         <template #bodyCell="{ record, column }">
           <template v-if="column.key === 'operation'">
             <span class="action-space">
-              <a-popconfirm title="确定删除?" ok-text="是" cancel-text="否" @confirm="confirmDelete(record)">
+              <a-popconfirm title="确定删除?" ok-text="�? cancel-text="�? @confirm="confirmDelete(record)">
                 <a class="delete-btn">删除</a>
               </a-popconfirm>
             </span>
@@ -114,7 +113,7 @@ const modal = reactive({
     link: undefined,
   },
   rules: {
-    link: [{ required: true, message: '请输入内容', trigger: 'change' }],
+    link: [{ required: true, message: '请输入内�?, trigger: 'change' }],
   },
 });
 
@@ -280,7 +279,6 @@ const handleBatchDelete = () => {
 
 :deep(.ant-table-tbody > tr:hover) {
   background: linear-gradient(135deg, #FFF9E6 0%, #FFFEF7 100%) !important;
-  transform: scale(1.01);
   box-shadow: 0 4px 12px rgba(255, 167, 38, 0.1);
 }
 
@@ -303,15 +301,18 @@ const handleBatchDelete = () => {
   border-radius: 8px;
   display: inline-block;
   text-decoration: none;
-  color: #ffffff;
-  background: linear-gradient(135deg, #FF7043 0%, #F4511E 100%);
-  box-shadow: 0 2px 8px rgba(244, 81, 30, 0.25);
 }
 
-:deep(.ant-table-tbody > tr > td a:hover) {
-  background: linear-gradient(135deg, #F4511E 0%, #E64A19 100%);
-  box-shadow: 0 4px 12px rgba(244, 81, 30, 0.35);
-  transform: translateY(-2px);
+.delete-btn {
+  color: #ffffff !important;
+  background: linear-gradient(135deg, #FF7043 0%, #F4511E 100%) !important;
+  box-shadow: 0 2px 8px rgba(244, 81, 30, 0.25) !important;
+}
+
+.delete-btn:hover {
+  background: linear-gradient(135deg, #F4511E 0%, #E64A19 100%) !important;
+  box-shadow: 0 4px 12px rgba(244, 81, 30, 0.35) !important;
+  transform: translateY(-2px) !important;
 }
 
 :deep(.ant-tag) {
@@ -367,7 +368,7 @@ const handleBatchDelete = () => {
   border-color: #66BB6A !important;
 }
 
-/* 滚动条样式 */
+/* 滚动条样�?*/
 :deep(*::-webkit-scrollbar) {
   width: 8px !important;
   height: 8px !important;
@@ -385,6 +386,40 @@ const handleBatchDelete = () => {
 
 :deep(*::-webkit-scrollbar-thumb:hover) {
   background: linear-gradient(135deg, #5CB860, #FF9800) !important;
+}
+
+/* 页面切换动画 */
+.page-surface {
+  animation: pageSlide 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes pageSlide {
+  0% {
+    opacity: 0;
+    transform: translateX(30px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+/* 修复分页文字显示 */
+:deep(.ant-pagination) {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+:deep(.ant-pagination-total-text) {
+  margin-right: 8px;
+  color: #2E7D32;
+  font-weight: 500;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 </style>
 

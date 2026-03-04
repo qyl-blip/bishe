@@ -478,6 +478,11 @@ input, textarea {
   background: #ffffff !important;
 }
 
+/* 隐藏下拉箭头 */
+:deep(.ant-select-arrow) {
+  display: none !important;
+}
+
 :deep(.ant-spin-container) {
   width: 100%;
   display: flex;

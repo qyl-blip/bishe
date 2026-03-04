@@ -82,3 +82,21 @@ const formatDate = (time, format = 'YY-MM-DD hh:mm:ss') => {
 }
 
 </script>
+
+<style scoped lang="less">
+/* 页面切换动画 */
+.page-surface {
+  animation: pageSlide 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes pageSlide {
+  0% {
+    opacity: 0;
+    transform: translateX(30px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+</style>

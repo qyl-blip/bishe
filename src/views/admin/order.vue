@@ -3,16 +3,16 @@
     <!-- 搜索区域 -->
     <div class="table-operations">
       <a-input-search
-        addon-before="订单号"
-        placeholder="请输入订单号"
+        addon-before="预约�?
+        placeholder="请输入预约号"
         enter-button
-        v-model:value="searchForm.orderNo"
+        v-model:value="searchForm.appointmentNo"
         @search="handleSearch"
         style="max-width: 400px;"
       />
       <a-input-search
         addon-before="客户姓名"
-        placeholder="请输入客户姓名"
+        placeholder="请输入客户姓�?
         enter-button
         v-model:value="searchForm.userName"
         @search="handleSearch"
@@ -33,28 +33,29 @@
       >
         <template #bodyCell="{ text, record, column }">
           <template v-if="column.key === 'status'">
-            <a-tag :color="text === '1' ? 'warning' : text === '2' ? 'success' : 'default'">
-              {{ text === '1' ? '待处理' : text === '2' ? '已完成' : '已取消' }}
+            <a-tag :color="text === '0' ? 'warning' : text === '1' ? 'success' : 'default'">
+              {{ text === '0' ? '待服�? : text === '1' ? '已完�? : '已取�? }}
             </a-tag>
           </template>
           <template v-else-if="column.key === 'operation'">
             <span class="action-space">
-              <a class="operation-btn">详情</a>
               <a-popconfirm
-                title="确定取消订单？"
-                @confirm="confirmCancel(record)"
-                ok-text="是"
-                cancel-text="否"
+                v-if="record.status === '0'"
+                title="确定完成服务�?
+                @confirm="confirmComplete(record)"
+                ok-text="�?
+                cancel-text="�?
               >
-                <a class="operation-btn" v-if="record.status === '1'">取消</a>
+                <a class="operation-btn">完成</a>
               </a-popconfirm>
               <a-popconfirm
-                title="确定删除订单？"
-                @confirm="confirmDelete(record)"
-                ok-text="是"
-                cancel-text="否"
+                v-if="record.status === '0'"
+                title="确定取消预约�?
+                @confirm="confirmCancel(record)"
+                ok-text="�?
+                cancel-text="�?
               >
-                <a class="delete-btn">删除</a>
+                <a class="delete-btn">取消</a>
               </a-popconfirm>
             </span>
           </template>
@@ -67,10 +68,10 @@
 <script setup lang="ts">
 import { reactive, ref, onMounted } from 'vue';
 import { message } from 'ant-design-vue';
-import { listApi, deleteApi, cancelApi } from '/@/api/order';
+import { listApi, updateStatusApi } from '/@/api/appointment';
 
 const searchForm = reactive({
-  orderNo: '',
+  appointmentNo: '',
   userName: '',
 });
 
@@ -83,7 +84,7 @@ const pagination = reactive({
   showSizeChanger: false,
   showQuickJumper: false,
   hideOnSinglePage: false,
-  showTotal: (total: number) => `共${total}条数据`,
+  showTotal: (total: number) => `�?{total}条数据`,
 });
 
 const columns = [
@@ -96,9 +97,9 @@ const columns = [
     customRender: ({ index }: any) => index + 1 + (pagination.current - 1) * pagination.pageSize,
   },
   {
-    title: '订单号',
-    dataIndex: 'order_number',
-    key: 'order_number',
+    title: '预约�?,
+    dataIndex: 'appointmentNumber',
+    key: 'appointmentNumber',
   },
   {
     title: '客户姓名',
@@ -107,24 +108,34 @@ const columns = [
   },
   {
     title: '服务名称',
-    dataIndex: 'title',
-    key: 'title',
+    dataIndex: 'thingTitle',
+    key: 'thingTitle',
   },
   {
-    title: '服务人员',
-    dataIndex: 'receiver_name',
-    key: 'receiver_name',
+    title: '预约日期',
+    dataIndex: 'appointmentDate',
+    key: 'appointmentDate',
   },
   {
-    title: '订单金额',
-    dataIndex: 'amount',
-    key: 'amount',
-    customRender: ({ text }: any) => `￥${text}`,
+    title: '预约时段',
+    dataIndex: 'slotTime',
+    key: 'slotTime',
   },
   {
-    title: '订单状态',
+    title: '联系�?,
+    dataIndex: 'receiverName',
+    key: 'receiverName',
+  },
+  {
+    title: '联系电话',
+    dataIndex: 'receiverPhone',
+    key: 'receiverPhone',
+  },
+  {
+    title: '预约状�?,
     dataIndex: 'status',
     key: 'status',
+    align: 'center',
   },
   {
     title: '操作',
@@ -142,20 +153,31 @@ onMounted(() => {
 const getData = async () => {
   loading.value = true;
   try {
-    const params = {
-      page: pagination.current,
-      pageSize: pagination.pageSize,
-      orderNo: searchForm.orderNo,
-      userName: searchForm.userName,
-    };
-    const res = await listApi(params);
-    if (res) {
-      const payload = res.data?.list ? res.data : { list: res.data || [], total: (res.data || []).length };
-      dataSource.value = payload.list;
-      pagination.total = payload.total || 0;
+    const res = await listApi({});
+    if (res && res.data) {
+      let list = Array.isArray(res.data) ? res.data : [];
+      
+      // 前端过滤
+      if (searchForm.appointmentNo) {
+        list = list.filter((item: any) => 
+          item.appointmentNumber && item.appointmentNumber.includes(searchForm.appointmentNo)
+        );
+      }
+      if (searchForm.userName) {
+        list = list.filter((item: any) => 
+          item.username && item.username.includes(searchForm.userName)
+        );
+      }
+      
+      // 分页
+      pagination.total = list.length;
+      const start = (pagination.current - 1) * pagination.pageSize;
+      const end = start + pagination.pageSize;
+      dataSource.value = list.slice(start, end);
     }
   } catch (error) {
     console.error(error);
+    message.error('获取预约列表失败');
   } finally {
     loading.value = false;
   }
@@ -166,35 +188,35 @@ const handleSearch = () => {
   getData();
 };
 
-const handleReset = () => {
-  searchForm.orderNo = '';
-  searchForm.userName = '';
-  handleSearch();
-};
-
 const handleTableChange = (pag: any) => {
   pagination.current = pag.current;
   pagination.pageSize = pag.pageSize;
   getData();
 };
 
-const confirmCancel = async (record: any) => {
+const confirmComplete = async (record: any) => {
   try {
-    await cancelApi({ id: record.id });
-    message.success('取消成功');
+    const formData = new FormData();
+    formData.append('appointmentId', record.id);
+    formData.append('status', '1'); // 1=已完�?
+    await updateStatusApi(formData);
+    message.success('操作成功');
     getData();
-  } catch (error) {
-    message.error('取消失败');
+  } catch (error: any) {
+    message.error(error.msg || '操作失败');
   }
 };
 
-const confirmDelete = async (record: any) => {
+const confirmCancel = async (record: any) => {
   try {
-    await deleteApi({ ids: [record.id] });
-    message.success('删除成功');
+    const formData = new FormData();
+    formData.append('appointmentId', record.id);
+    formData.append('status', '2'); // 2=已取�?
+    await updateStatusApi(formData);
+    message.success('取消成功');
     getData();
-  } catch (error) {
-    message.error('删除失败');
+  } catch (error: any) {
+    message.error(error.msg || '取消失败');
   }
 };
 </script>
@@ -446,8 +468,8 @@ const confirmDelete = async (record: any) => {
 
 :deep(.ant-table-tbody > tr:hover) {
   background: linear-gradient(135deg, #FFF9E6 0%, #FFFEF7 100%) !important;
-  transform: scale(1.01);
   box-shadow: 0 4px 12px rgba(255, 167, 38, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
 :deep(.ant-table-tbody > tr > td) {
@@ -527,7 +549,7 @@ const confirmDelete = async (record: any) => {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
-/* 滚动条样式 */
+/* 滚动条样�?*/
 :deep(*::-webkit-scrollbar) {
   width: 8px !important;
   height: 8px !important;
@@ -545,5 +567,39 @@ const confirmDelete = async (record: any) => {
 
 :deep(*::-webkit-scrollbar-thumb:hover) {
   background: linear-gradient(135deg, #5CB860, #FF9800) !important;
+}
+
+/* 页面切换动画 */
+.page-surface {
+  animation: pageSlide 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes pageSlide {
+  0% {
+    opacity: 0;
+    transform: translateX(30px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+/* 修复分页文字显示 */
+:deep(.ant-pagination) {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+:deep(.ant-pagination-total-text) {
+  margin-right: 8px;
+  color: #2E7D32;
+  font-weight: 500;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 </style>

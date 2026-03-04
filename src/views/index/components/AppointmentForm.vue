@@ -173,18 +173,20 @@ export default {
 
 <style scoped lang="less">
 .form-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
   background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(4px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1001;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 9999 !important;
   animation: fadeIn 0.2s ease;
+  overflow-y: auto;
+  padding: 20px;
 }
 
 @keyframes fadeIn {
@@ -197,11 +199,13 @@ export default {
   border-radius: 16px;
   width: 90%;
   max-width: 520px;
-  max-height: 80vh;
+  max-height: 90vh;
   display: flex;
   flex-direction: column;
   box-shadow: 0 12px 40px rgba(77, 182, 172, 0.2);
   animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  margin: auto;
+  position: relative;
 }
 
 @keyframes slideUp {

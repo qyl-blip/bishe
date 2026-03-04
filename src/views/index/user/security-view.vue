@@ -108,15 +108,32 @@ const handleUpdatePwd = () => {
 }
 
 .safe-view {
+  .safe-info-box {
+    margin-bottom: 32px;
+  }
+
+  .edit-pwd-box {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 16px;
+    padding: 24px;
+    border: 1px solid rgba(129, 199, 132, 0.2);
+    box-shadow: 0 4px 12px rgba(102, 187, 106, 0.08);
+  }
+
   .item {
     display: flex;
     align-items: center;
-    margin: 24px 0;
-    padding: 20px;
+    margin: 20px 0;
+    padding: 20px 24px;
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(232, 245, 233, 0.3) 100%);
     border-radius: 16px;
     border: 1px solid rgba(129, 199, 132, 0.2);
     transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+    &:hover {
+      border-color: rgba(102, 187, 106, 0.3);
+      box-shadow: 0 4px 16px rgba(102, 187, 106, 0.08);
+    }
 
     .label {
       width: 120px;
@@ -125,6 +142,7 @@ const handleUpdatePwd = () => {
       font-size: 15px;
       position: relative;
       padding-left: 12px;
+      flex-shrink: 0;
     }
     
     .label::before {
@@ -179,7 +197,8 @@ const handleUpdatePwd = () => {
       background: linear-gradient(135deg, #ffffff 0%, #F1F8E9 100%);
       border: 2px solid rgba(129, 199, 132, 0.2);
       border-radius: 12px;
-      width: 300px;
+      width: 100%;
+      max-width: 400px;
       height: 44px;
       line-height: 44px;
       font-size: 14px;
@@ -209,6 +228,8 @@ const handleUpdatePwd = () => {
   border: 2px solid rgba(129, 199, 132, 0.2);
   border-radius: 12px;
   height: 44px;
+  width: 100%;
+  max-width: 400px;
   transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
   box-shadow: 0 2px 8px rgba(102, 187, 106, 0.05);
 }
@@ -227,6 +248,12 @@ const handleUpdatePwd = () => {
 
 :deep(.ant-input-password input) {
   background: transparent;
+  height: 40px;
+  line-height: 40px;
+}
+
+:deep(.ant-input-password .ant-input-suffix) {
+  color: #66BB6A;
 }
 
 :deep(.ant-btn-link) {

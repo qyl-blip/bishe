@@ -77,7 +77,7 @@ const initCharts = () => {
   visitChart.setOption({
     tooltip: { trigger: 'axis' },
     legend: {
-      data: ['IP', '访问量'],
+      data: ['IP', '访问�?],
       top: '90%',
       left: 'center',
       textStyle: { color: '#2E7D32' },
@@ -120,7 +120,7 @@ const initCharts = () => {
         areaStyle: { color: 'rgba(102, 187, 106, 0.18)' },
       },
       {
-        name: '访问量',
+        name: '访问�?,
         type: 'line',
         smooth: true,
         data: pvData,
@@ -275,6 +275,22 @@ const initPieChart = () => {
 .chart-box {
   height: 300px;
   border-radius: 12px;
+}
+
+/* 页面切换动画 */
+.page-surface {
+  animation: pageSlide 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes pageSlide {
+  0% {
+    opacity: 0;
+    transform: translateX(30px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
 }
 </style>
 

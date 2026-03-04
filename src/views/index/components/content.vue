@@ -121,6 +121,8 @@ const contentData = reactive({
   page: 1,
   total: 0,
   pageSize: 12,
+  
+  isFirstLoad: true, // 标记是否首次加载
 })
 
 onMounted(() => {
@@ -238,7 +240,8 @@ const getThingList = (data) => {
       }
     })
     console.log(res)
-    contentData.thingData = res.data
+    // 只显示已上架的服务 (status='0')
+    contentData.thingData = res.data.filter(item => item.status === '0')
     contentData.filteredData = [...contentData.thingData]
     applyLocalFilter()
   }).catch(err => {

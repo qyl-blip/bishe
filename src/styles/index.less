@@ -3,6 +3,28 @@
 @import './animations.less';
 
 // ================================================
+// 全局模态框居中样式
+// ================================================
+
+.ant-modal-wrap {
+  position: fixed !important;
+  top: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  overflow: auto !important;
+  outline: 0 !important;
+  z-index: 1000 !important;
+}
+
+.ant-modal {
+  position: relative !important;
+  top: 100px !important;
+  margin: 0 auto 100px !important;
+  padding-bottom: 0 !important;
+}
+
+// ================================================
 // Global Layout
 // ================================================
 
@@ -178,7 +200,7 @@
 }
 
 // ================================================
-// Inputs
+// Inputs (全局绿色主题)
 // ================================================
 
 .ant-input,
@@ -186,24 +208,29 @@
 .ant-select-selector,
 .ant-input-number {
   border-radius: @radius-md !important;
-  border: 1px solid rgba(15, 17, 25, 0.12) !important;
+  border: 2px solid #E8F5E9 !important;
   background: #ffffff !important;
-  color: #1c2233 !important;
+  color: #2E7D32 !important;
   transition: all @transition-duration-base @transition-timing !important;
+  box-shadow: none !important;
+  outline: none !important;
 }
 
 .ant-input:hover,
 .ant-picker:hover,
 .ant-select-selector:hover {
-  border-color: @secondary-light !important;
+  border-color: #C8E6C9 !important;
 }
 
 .ant-input:focus,
 .ant-picker:focus,
 .ant-select-selector:focus,
-.ant-input-focused {
-  border-color: @secondary-color !important;
-  box-shadow: 0 0 0 2px rgba(22, 119, 255, 0.16) !important;
+.ant-input-focused,
+.ant-select-focused .ant-select-selector,
+.ant-picker-focused {
+  border-color: #66BB6A !important;
+  box-shadow: 0 0 0 3px rgba(102, 187, 106, 0.12) !important;
+  outline: none !important;
 }
 
 // ================================================
@@ -1254,11 +1281,18 @@ i:hover {
   overflow: hidden !important;
   box-shadow: 0 4px 12px rgba(102, 187, 106, 0.15) !important;
   transition: box-shadow 0.3s ease !important;
+  position: relative !important;
 }
 
 .page-surface .table-operations .ant-input-search .ant-input-wrapper:hover,
 .page-surface .table-operations .ant-input-search .ant-input-group:hover {
   box-shadow: 0 6px 16px rgba(102, 187, 106, 0.25) !important;
+}
+
+/* 隐藏搜索框的下拉建议 */
+.page-surface .table-operations .ant-input-search .ant-select-dropdown,
+.page-surface .table-operations .ant-input-search + .ant-select-dropdown {
+  display: none !important;
 }
 
 /* 前置标签样式（服务名称等） */
@@ -1465,34 +1499,56 @@ i:hover {
 // 修复模态框样式
 // ================================================
 
-/* 模态框容器 */
-.ant-modal-wrap {
-  position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  bottom: 0 !important;
-  overflow: auto !important;
+/* 模态框遮罩层 */
+.ant-modal-mask {
+  background-color: rgba(0, 0, 0, 0.45) !important;
   z-index: 1000 !important;
-}
-
-/* 模态框居中 */
-.ant-modal {
-  position: relative !important;
-  top: auto !important;
-  left: auto !important;
-  margin: 0 auto !important;
-  padding-top: 100px !important;
-  padding-bottom: 100px !important;
 }
 
 /* 模态框内容 */
 .ant-modal-content {
-  position: relative !important;
   background: #ffffff !important;
   border: 1px solid rgba(15, 17, 25, 0.08) !important;
   border-radius: 16px !important;
   box-shadow: 0 18px 40px rgba(20, 26, 42, 0.12) !important;
+}
+
+// ================================================
+// TOP按钮样式 - 黄绿色主题
+// ================================================
+
+/* 修改所有可能的TOP按钮样式 */
+#TOP,
+.TOP,
+[id*="top" i],
+[class*="top" i],
+button:contains("TOP"),
+div:contains("TOP") {
+  background: linear-gradient(135deg, #C0CA33 0%, #9CCC65 100%) !important;
+  color: #ffffff !important;
+  border: none !important;
+  box-shadow: 0 4px 12px rgba(156, 204, 101, 0.3) !important;
+}
+
+/* 如果是固定定位的按钮 */
+[style*="position: fixed"] {
+  &:contains("TOP") {
+    background: linear-gradient(135deg, #C0CA33 0%, #9CCC65 100%) !important;
+  }
+}
+
+/* Ant Design的BackTop组件 */
+.ant-back-top {
+  background: linear-gradient(135deg, #C0CA33 0%, #9CCC65 100%) !important;
+  color: #ffffff !important;
+  border: none !important;
+  box-shadow: 0 4px 12px rgba(156, 204, 101, 0.3) !important;
+  border-radius: 8px !important;
+}
+
+.ant-back-top:hover {
+  background: linear-gradient(135deg, #AFB42B 0%, #8BC34A 100%) !important;
+  box-shadow: 0 6px 16px rgba(156, 204, 101, 0.4) !important;
 }
 
 /* 模态框头部 */
@@ -1537,6 +1593,27 @@ i:hover {
   padding: 24px !important;
   max-height: calc(100vh - 300px) !important;
   overflow-y: auto !important;
+  scroll-behavior: smooth !important;
+}
+
+/* 模态框滚动条样式 */
+.ant-modal-body::-webkit-scrollbar {
+  width: 8px !important;
+}
+
+.ant-modal-body::-webkit-scrollbar-track {
+  background: rgba(232, 245, 233, 0.3) !important;
+  border-radius: 4px !important;
+}
+
+.ant-modal-body::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #66BB6A, #4DB6AC) !important;
+  border-radius: 4px !important;
+  transition: background 0.25s ease-out !important;
+}
+
+.ant-modal-body::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #5CB860, #45A89E) !important;
 }
 
 /* 模态框底部 */
@@ -1555,6 +1632,8 @@ i:hover {
   font-weight: 600 !important;
   font-size: 14px !important;
   margin-left: 10px !important;
+  cursor: pointer !important;
+  transition: background 0.25s ease-out, box-shadow 0.25s ease-out, border-color 0.25s ease-out !important;
 }
 
 .ant-modal-footer .ant-btn-primary {
@@ -1567,6 +1646,7 @@ i:hover {
 .ant-modal-footer .ant-btn-primary:hover {
   background: linear-gradient(135deg, #5CB860 0%, #45A89E 100%) !important;
   box-shadow: 0 6px 16px rgba(102, 187, 106, 0.35) !important;
+  transition: background 0.2s ease-out, box-shadow 0.2s ease-out !important;
 }
 
 .ant-modal-footer .ant-btn-default {
@@ -1578,6 +1658,7 @@ i:hover {
 .ant-modal-footer .ant-btn-default:hover {
   border-color: #C8E6C9 !important;
   background: linear-gradient(135deg, #F9FBF9 0%, #FFFEF7 100%) !important;
+  transition: background 0.2s ease-out, border-color 0.2s ease-out !important;
 }
 
 /* 模态框遮罩层 */
@@ -1602,8 +1683,7 @@ i:hover {
 }
 
 /* 普通输入框 */
-.ant-modal-body .ant-input,
-.ant-modal-body textarea {
+.ant-modal-body .ant-input {
   width: 100% !important;
   height: 44px !important;
   line-height: 42px !important;
@@ -1613,14 +1693,82 @@ i:hover {
   color: #2E7D32 !important;
   font-size: 14px !important;
   padding: 0 16px !important;
-  transition: all 0.3s ease !important;
+  transition: border-color 0.25s ease-out, box-shadow 0.25s ease-out !important;
+  box-shadow: none !important;
+  outline: none !important;
 }
 
-.ant-modal-body textarea {
+.ant-modal-body .ant-input:hover {
+  border-color: #C8E6C9 !important;
+  box-shadow: none !important;
+  transition: border-color 0.2s ease-out !important;
+}
+
+.ant-modal-body .ant-input:focus,
+.ant-modal-body .ant-input-focused {
+  border-color: #66BB6A !important;
+  box-shadow: 0 0 0 3px rgba(102, 187, 106, 0.12) !important;
+  outline: none !important;
+  transition: border-color 0.2s ease-out, box-shadow 0.2s ease-out !important;
+}
+
+.ant-modal-body .ant-input::placeholder {
+  color: #BCAAA4 !important;
+}
+
+/* 防止嵌套输入框 */
+.ant-modal-body .ant-input-affix-wrapper .ant-input {
+  border: none !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+.ant-modal-body .ant-input-affix-wrapper {
+  width: 100% !important;
+  height: 44px !important;
+  border-radius: 12px !important;
+  border: 2px solid #E8F5E9 !important;
+  background: #ffffff !important;
+  padding: 0 16px !important;
+  transition: border-color 0.25s ease-out, box-shadow 0.25s ease-out !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.ant-modal-body .ant-input-affix-wrapper:hover {
+  border-color: #C8E6C9 !important;
+  box-shadow: none !important;
+  transition: border-color 0.2s ease-out !important;
+}
+
+.ant-modal-body .ant-input-affix-wrapper:focus,
+.ant-modal-body .ant-input-affix-wrapper-focused {
+  border-color: #66BB6A !important;
+  box-shadow: 0 0 0 3px rgba(102, 187, 106, 0.12) !important;
+  outline: none !important;
+  transition: border-color 0.2s ease-out, box-shadow 0.2s ease-out !important;
+}
+
+/* 文本域 */
+.ant-modal-body textarea.ant-input {
   height: auto !important;
   line-height: 1.5 !important;
   min-height: 80px !important;
   padding: 12px 16px !important;
+  resize: vertical !important;
+  transition: border-color 0.25s ease-out, box-shadow 0.25s ease-out !important;
+}
+
+.ant-modal-body textarea.ant-input:hover {
+  border-color: #C8E6C9 !important;
+  transition: border-color 0.2s ease-out !important;
+}
+
+.ant-modal-body textarea.ant-input:focus {
+  border-color: #66BB6A !important;
+  box-shadow: 0 0 0 3px rgba(102, 187, 106, 0.12) !important;
+  transition: border-color 0.2s ease-out, box-shadow 0.2s ease-out !important;
 }
 
 /* 数字输入框 */
@@ -1630,14 +1778,31 @@ i:hover {
   border-radius: 12px !important;
   border: 2px solid #E8F5E9 !important;
   background: #ffffff !important;
-  transition: all 0.3s ease !important;
-  display: flex !important;
+  transition: border-color 0.25s ease-out, box-shadow 0.25s ease-out !important;
+  box-shadow: none !important;
+  outline: none !important;
+  position: relative !important;
+  display: inline-flex !important;
   align-items: center !important;
 }
 
+.ant-modal-body .ant-input-number:hover {
+  border-color: #C8E6C9 !important;
+  box-shadow: none !important;
+  transition: border-color 0.2s ease-out !important;
+}
+
+.ant-modal-body .ant-input-number:focus,
+.ant-modal-body .ant-input-number-focused {
+  border-color: #66BB6A !important;
+  box-shadow: 0 0 0 3px rgba(102, 187, 106, 0.12) !important;
+  outline: none !important;
+  transition: border-color 0.2s ease-out, box-shadow 0.2s ease-out !important;
+}
+
 .ant-modal-body .ant-input-number-input-wrap {
-  flex: 1 !important;
   height: 100% !important;
+  flex: 1 !important;
 }
 
 .ant-modal-body .ant-input-number-input {
@@ -1649,40 +1814,37 @@ i:hover {
   color: #2E7D32 !important;
   font-size: 14px !important;
   padding: 0 16px !important;
+  box-shadow: none !important;
+  outline: none !important;
 }
 
+.ant-modal-body .ant-input-number-input::placeholder {
+  color: #BCAAA4 !important;
+}
+
+/* 隐藏数字输入框的上下箭头 */
 .ant-modal-body .ant-input-number-handler-wrap {
-  width: 32px !important;
-  height: 40px !important;
-  border-radius: 0 10px 10px 0 !important;
-  background: linear-gradient(135deg, #E8F5E9 0%, #F1F8E9 100%) !important;
-  border-left: 2px solid #E8F5E9 !important;
-  opacity: 1 !important;
-  position: relative !important;
-  right: 0 !important;
+  display: none !important;
 }
 
-.ant-modal-body .ant-input-number-handler {
-  border: none !important;
-  height: 50% !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
+/* 移除Chrome/Safari的数字输入框默认箭头 */
+.ant-modal-body .ant-input-number-input::-webkit-outer-spin-button,
+.ant-modal-body .ant-input-number-input::-webkit-inner-spin-button {
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  margin: 0 !important;
 }
 
-.ant-modal-body .ant-input-number-handler:hover {
-  background: rgba(102, 187, 106, 0.15) !important;
-}
-
-.ant-modal-body .ant-input-number-handler-up-inner,
-.ant-modal-body .ant-input-number-handler-down-inner {
-  color: #66BB6A !important;
-  font-size: 12px !important;
+/* 移除Firefox的数字输入框默认箭头 */
+.ant-modal-body .ant-input-number-input[type=number] {
+  -moz-appearance: textfield !important;
+  appearance: textfield !important;
 }
 
 /* 选择框 */
 .ant-modal-body .ant-select {
   width: 100% !important;
+  position: relative !important;
 }
 
 .ant-modal-body .ant-select-selector {
@@ -1691,25 +1853,193 @@ i:hover {
   border-radius: 12px !important;
   border: 2px solid #E8F5E9 !important;
   background: #ffffff !important;
-  padding: 0 16px !important;
+  padding: 0 40px 0 16px !important;
   display: flex !important;
   align-items: center !important;
-  transition: all 0.3s ease !important;
+  transition: border-color 0.25s ease-out, box-shadow 0.25s ease-out !important;
+  box-shadow: none !important;
+  outline: none !important;
+  cursor: pointer !important;
+  position: relative !important;
+}
+
+.ant-modal-body .ant-select-selector:hover {
+  border-color: #C8E6C9 !important;
+  box-shadow: none !important;
+  transition: border-color 0.2s ease-out !important;
+}
+
+.ant-modal-body .ant-select-focused .ant-select-selector,
+.ant-modal-body .ant-select-open .ant-select-selector {
+  border-color: #66BB6A !important;
+  box-shadow: 0 0 0 3px rgba(102, 187, 106, 0.12) !important;
+  outline: none !important;
+  transition: border-color 0.2s ease-out, box-shadow 0.2s ease-out !important;
 }
 
 .ant-modal-body .ant-select-selection-item {
   line-height: 42px !important;
   color: #2E7D32 !important;
+  padding: 0 !important;
 }
 
 .ant-modal-body .ant-select-selection-placeholder {
   line-height: 42px !important;
   color: #BCAAA4 !important;
+  padding: 0 !important;
 }
 
+/* 隐藏选择框箭头 */
 .ant-modal-body .ant-select-arrow {
-  color: #66BB6A !important;
-  right: 16px !important;
+  display: none !important;
+}
+
+/* 清除按钮样式 - 在选择框内部 */
+.ant-modal-body .ant-select-clear {
+  position: absolute !important;
+  right: 12px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  width: 20px !important;
+  height: 20px !important;
+  background: rgba(239, 83, 80, 0.1) !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  transition: background 0.2s ease-out, transform 0.2s ease-out !important;
+  z-index: 1 !important;
+  margin: 0 !important;
+  inset-inline-end: 12px !important;
+}
+
+.ant-modal-body .ant-select-clear:hover {
+  background: rgba(239, 83, 80, 0.2) !important;
+  transform: translateY(-50%) scale(1.1) !important;
+  transition: background 0.15s ease-out, transform 0.15s ease-out !important;
+}
+
+.ant-modal-body .ant-select-clear .anticon {
+  color: #EF5350 !important;
+  font-size: 12px !important;
+}
+
+.ant-modal-body .ant-select-single .ant-select-selector {
+  padding-right: 40px !important;
+}
+
+.ant-modal-body .ant-select-multiple .ant-select-selector {
+  padding: 4px 40px 4px 8px !important;
+  min-height: 44px !important;
+  height: auto !important;
+}
+
+.ant-modal-body .ant-select-multiple .ant-select-selection-item {
+  height: 28px !important;
+  line-height: 26px !important;
+  background: linear-gradient(135deg, #E8F5E9 0%, #F1F8E9 100%) !important;
+  border: 1px solid #C8E6C9 !important;
+  border-radius: 8px !important;
+  color: #2E7D32 !important;
+  padding: 0 8px !important;
+  margin: 2px 4px 2px 0 !important;
+}
+
+/* 多选模式下的清除按钮 */
+.ant-modal-body .ant-select-multiple .ant-select-selection-item-remove {
+  color: #EF5350 !important;
+  font-size: 12px !important;
+  margin-left: 4px !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
+}
+
+.ant-modal-body .ant-select-multiple .ant-select-selection-item-remove:hover {
+  color: #D32F2F !important;
+}
+
+/* 选择框下拉面板 */
+.ant-select-dropdown {
+  border-radius: 12px !important;
+  border: 2px solid #E8F5E9 !important;
+  box-shadow: 0 8px 24px rgba(102, 187, 106, 0.15) !important;
+  padding: 8px 0 !important;
+  background: #ffffff !important;
+  z-index: 1050 !important;
+  position: fixed !important;
+}
+
+.ant-select-item {
+  padding: 10px 16px !important;
+  color: #2E7D32 !important;
+  transition: background 0.2s ease-out, color 0.2s ease-out !important;
+  cursor: pointer !important;
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+}
+
+.ant-select-item:hover {
+  background: linear-gradient(135deg, #E8F5E9 0%, #F1F8E9 100%) !important;
+  transition: background 0.15s ease-out !important;
+}
+
+.ant-select-item-option-selected {
+  background: linear-gradient(135deg, #E8F5E9 0%, #F1F8E9 100%) !important;
+  color: #2E7D32 !important;
+  font-weight: 600 !important;
+}
+
+.ant-select-item-option-active {
+  background: rgba(232, 245, 233, 0.5) !important;
+  transition: background 0.15s ease-out !important;
+}
+
+.ant-select-item-option-disabled {
+  color: #BCAAA4 !important;
+  cursor: not-allowed !important;
+  opacity: 0.5 !important;
+}
+
+/* 确保下拉面板在模态框内也能正常显示 */
+.ant-modal-wrap .ant-select-dropdown {
+  z-index: 1060 !important;
+}
+
+/* 全局选择框清除按钮样式 */
+.ant-select {
+  position: relative !important;
+}
+
+.ant-select-clear {
+  position: absolute !important;
+  right: 12px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  width: 20px !important;
+  height: 20px !important;
+  background: rgba(239, 83, 80, 0.1) !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  transition: background 0.2s ease-out, transform 0.2s ease-out !important;
+  z-index: 1 !important;
+  opacity: 1 !important;
+  margin: 0 !important;
+  inset-inline-end: 12px !important;
+}
+
+.ant-select-clear:hover {
+  background: rgba(239, 83, 80, 0.2) !important;
+  transform: translateY(-50%) scale(1.1) !important;
+  transition: background 0.15s ease-out, transform 0.15s ease-out !important;
+}
+
+.ant-select-clear .anticon {
+  color: #EF5350 !important;
+  font-size: 12px !important;
 }
 
 /* 日期选择器 */
@@ -1720,7 +2050,21 @@ i:hover {
   border: 2px solid #E8F5E9 !important;
   background: #ffffff !important;
   padding: 0 16px !important;
-  transition: all 0.3s ease !important;
+  transition: border-color 0.25s ease-out, box-shadow 0.25s ease-out !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.ant-modal-body .ant-picker:hover {
+  border-color: #C8E6C9 !important;
+  transition: border-color 0.2s ease-out !important;
+}
+
+.ant-modal-body .ant-picker-focused {
+  border-color: #66BB6A !important;
+  box-shadow: 0 0 0 3px rgba(102, 187, 106, 0.12) !important;
+  outline: none !important;
+  transition: border-color 0.2s ease-out, box-shadow 0.2s ease-out !important;
 }
 
 .ant-modal-body .ant-picker-input > input {
@@ -1728,32 +2072,8 @@ i:hover {
   font-size: 14px !important;
 }
 
-/* placeholder颜色 */
-.ant-modal-body .ant-input::placeholder,
-.ant-modal-body .ant-input-number-input::placeholder,
-.ant-modal-body textarea::placeholder,
 .ant-modal-body .ant-picker-input > input::placeholder {
   color: #BCAAA4 !important;
-}
-
-/* hover状态 */
-.ant-modal-body .ant-input:hover,
-.ant-modal-body .ant-input-number:hover,
-.ant-modal-body .ant-select-selector:hover,
-.ant-modal-body .ant-picker:hover,
-.ant-modal-body textarea:hover {
-  border-color: #C8E6C9 !important;
-}
-
-/* focus状态 */
-.ant-modal-body .ant-input:focus,
-.ant-modal-body .ant-input-number:focus,
-.ant-modal-body .ant-input-number-focused,
-.ant-modal-body .ant-select-focused .ant-select-selector,
-.ant-modal-body .ant-picker-focused,
-.ant-modal-body textarea:focus {
-  border-color: #66BB6A !important;
-  box-shadow: 0 0 0 3px rgba(102, 187, 106, 0.12) !important;
 }
 
 /* 上传组件样式 */
@@ -1766,7 +2086,7 @@ i:hover {
   border: 2px dashed #E8F5E9 !important;
   border-radius: 12px !important;
   background: rgba(232, 245, 233, 0.1) !important;
-  transition: all 0.3s ease !important;
+  transition: border-color 0.25s ease-out, background 0.25s ease-out !important;
   min-height: 120px !important;
   display: flex !important;
   align-items: center !important;
@@ -1776,6 +2096,7 @@ i:hover {
 .ant-modal-body .ant-upload.ant-upload-select:hover {
   border-color: #66BB6A !important;
   background: rgba(232, 245, 233, 0.2) !important;
+  transition: border-color 0.2s ease-out, background 0.2s ease-out !important;
 }
 
 .ant-modal-body .ant-upload-drag-icon {
@@ -1794,7 +2115,201 @@ i:hover {
   font-size: 12px !important;
 }
 
-/* 确保模态框在最上层 */
+/* 确保所有弹出层都有正确的z-index和定位 */
 .ant-modal-root {
   z-index: 1000 !important;
+}
+
+/* 确保没有其他弹出层显示在中间 */
+.ant-dropdown,
+.ant-tooltip,
+.ant-popover:not(.ant-popconfirm) {
+  z-index: 1050 !important;
+}
+
+/* 自动完成下拉框 */
+.ant-select-dropdown,
+.ant-autocomplete-dropdown {
+  z-index: 1050 !important;
+  position: fixed !important;
+}
+
+/* 气泡确认框样式 - 使用更强的选择器 */
+.ant-popover.ant-popconfirm {
+  z-index: 1070 !important;
+  position: fixed !important;
+}
+
+/* 禁用气泡框的所有动画 */
+.ant-popover.ant-popconfirm,
+.ant-popover.ant-popconfirm .ant-popover-content,
+.ant-popover.ant-popconfirm .ant-popover-inner {
+  animation: none !important;
+  transition: none !important;
+}
+
+.ant-popover.ant-popconfirm .ant-popover-content {
+  border-radius: 12px !important;
+  position: relative !important;
+}
+
+.ant-popover.ant-popconfirm .ant-popover-inner {
+  background: #ffffff !important;
+  border: 2px solid #E8F5E9 !important;
+  border-radius: 12px !important;
+  box-shadow: 0 8px 24px rgba(102, 187, 106, 0.15) !important;
+  padding: 0 !important;
+  min-width: 180px !important;
+  max-width: 280px !important;
+  position: relative !important;
+}
+
+.ant-popover.ant-popconfirm .ant-popover-inner-content {
+  padding: 12px 16px !important;
+  color: #2E7D32 !important;
+}
+
+.ant-popover.ant-popconfirm .ant-popover-message {
+  padding: 0 0 10px 0 !important;
+  display: flex !important;
+  align-items: flex-start !important;
+  margin-bottom: 0 !important;
+}
+
+.ant-popover.ant-popconfirm .ant-popover-message-icon {
+  color: #FFA726 !important;
+  font-size: 16px !important;
+  margin-right: 8px !important;
+  flex-shrink: 0 !important;
+  margin-top: 2px !important;
+}
+
+.ant-popover.ant-popconfirm .ant-popover-message-title {
+  color: #2E7D32 !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  line-height: 1.5 !important;
+  flex: 1 !important;
+}
+
+.ant-popover.ant-popconfirm .ant-popover-buttons {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  display: flex !important;
+  justify-content: flex-end !important;
+  gap: 8px !important;
+  text-align: right !important;
+}
+
+.ant-popover.ant-popconfirm .ant-popover-buttons .ant-btn {
+  height: 28px !important;
+  padding: 0 12px !important;
+  border-radius: 6px !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  transition: all 0.15s ease !important;
+  margin: 0 !important;
+  min-width: 50px !important;
+}
+
+.ant-popover.ant-popconfirm .ant-popover-buttons .ant-btn:first-child {
+  background: #ffffff !important;
+  border: 1.5px solid #E8F5E9 !important;
+  color: #2E7D32 !important;
+}
+
+.ant-popover.ant-popconfirm .ant-popover-buttons .ant-btn:first-child:hover {
+  border-color: #C8E6C9 !important;
+  background: rgba(232, 245, 233, 0.3) !important;
+}
+
+.ant-popover.ant-popconfirm .ant-popover-buttons .ant-btn:first-child:active {
+  border-color: #66BB6A !important;
+  background: rgba(232, 245, 233, 0.5) !important;
+}
+
+.ant-popover.ant-popconfirm .ant-popover-buttons .ant-btn:last-child {
+  background: linear-gradient(135deg, #EF5350 0%, #E53935 100%) !important;
+  border: none !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 6px rgba(239, 83, 80, 0.2) !important;
+}
+
+.ant-popover.ant-popconfirm .ant-popover-buttons .ant-btn:last-child:hover {
+  background: linear-gradient(135deg, #E53935 0%, #D32F2F 100%) !important;
+  box-shadow: 0 3px 8px rgba(239, 83, 80, 0.3) !important;
+}
+
+.ant-popover.ant-popconfirm .ant-popover-buttons .ant-btn:last-child:active {
+  background: linear-gradient(135deg, #D32F2F 0%, #C62828 100%) !important;
+  box-shadow: 0 1px 4px rgba(239, 83, 80, 0.3) !important;
+}
+
+.ant-popover.ant-popconfirm .ant-popover-arrow {
+  display: none !important;
+}
+
+/* 加快气泡框消失速度 */
+.ant-popover-hidden {
+  display: none !important;
+}
+
+/* 通用气泡框样式 */
+.ant-popover {
+  z-index: 1070 !important;
+}
+
+.ant-popover .ant-popover-inner {
+  background: #ffffff !important;
+  border: 2px solid #E8F5E9 !important;
+  border-radius: 12px !important;
+  box-shadow: 0 8px 24px rgba(102, 187, 106, 0.15) !important;
+}
+
+.ant-popover .ant-popover-inner-content {
+  padding: 12px 16px !important;
+  color: #2E7D32 !important;
+}
+
+.ant-popover .ant-popover-arrow {
+  display: none !important;
+}
+
+/* 全局移除蓝色描边和outline */
+.ant-modal-body .ant-input:focus-visible,
+.ant-modal-body .ant-input-number:focus-visible,
+.ant-modal-body .ant-select-selector:focus-visible,
+.ant-modal-body .ant-picker:focus-visible,
+.ant-modal-body textarea:focus-visible {
+  outline: none !important;
+  outline-offset: 0 !important;
+}
+
+/* 移除浏览器默认的focus样式 */
+.ant-modal-body input:focus,
+.ant-modal-body textarea:focus,
+.ant-modal-body select:focus {
+  outline: none !important;
+}
+
+/* 确保所有输入框组件都使用绿色主题 */
+.ant-modal-body .ant-form-item-control-input-content > * {
+  box-shadow: none !important;
+}
+
+.ant-modal-body .ant-form-item-control-input-content > *:focus {
+  box-shadow: 0 0 0 3px rgba(102, 187, 106, 0.12) !important;
+}
+
+/* 修复可能的嵌套边框问题 */
+.ant-modal-body .ant-input-number-input-wrap input {
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.ant-modal-body .ant-select-selection-search-input {
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
 }

@@ -485,6 +485,10 @@ input, textarea {
   background: #ffffff !important;
 }
 
+:deep(.ant-select .ant-select-arrow) {
+  display: none !important;
+}
+
 :deep(.ant-spin-container) {
   width: 100%;
   display: flex;
