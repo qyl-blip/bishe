@@ -18,7 +18,7 @@
               <el-col :span="6" v-for="item in serviceList" :key="item.id" class="card-col">
                 <div class="m-card" @click="goDetail(item)">
                   <div class="m-card-cover">
-                    <img :src="'https://picsum.photos/400/300?random=' + item.id" alt="">
+                    <img :src="item.cover || 'https://picsum.photos/400/300?random=' + item.id" alt="">
                     <div class="badge-price">￥{{ item.price }}<span>/h</span></div>
                     <div class="badge-dist">1.5km</div>
                   </div>
@@ -145,7 +145,7 @@ export default {
       if (!services || services.length === 0) {
         usedFallback = true;
         try {
-          const res = await axios.get(`${BASE_URL}/api/thing/list`, { params: {}, timeout: 3000 });
+          const res = await axios.get(`${BASE_URL}/api/thing/list`, { params: { c: 2 }, timeout: 3000 });
           const raw = this.normalizeList(res.data);
           services = raw.filter((item) => {
             const value = (item.city || item.location || '').trim();
@@ -159,6 +159,12 @@ export default {
         ...item,
         score: Number(item.score) || 0
       }));
+      // 处理图片URL
+      services.forEach((item) => {
+        if (item.cover) {
+          item.cover = BASE_URL + '/api/staticfiles/image/' + item.cover;
+        }
+      });
       this.serviceList = services;
       this.loading = false;
     },

@@ -28,6 +28,7 @@
           <h4>选择时间段</h4>
           <div v-if="loadingSlots" class="loading-indicator">加载时间段...</div>
           <div v-else-if="error" class="error-message">{{ error }}</div>
+          <div v-else-if="availableSlots.length === 0" class="info-message">暂无可用时间段</div>
           <div v-else class="slot-list">
             <div
               v-for="slot in availableSlots"
@@ -144,13 +145,17 @@ export default {
     async loadTimeSlots(date) {
       this.loadingSlots = true;
       this.error = null;
+      this.availableSlots = [];
       
       try {
         console.log('开始加载时间段, date:', date, 'thingId:', this.thingId);
         const res = await getAvailableSlots({ date: date, thingId: this.thingId });
         console.log('API响应:', res);
         if (res.code === 200) {
-          this.availableSlots = res.data;
+          const slots = Array.isArray(res.data)
+            ? res.data
+            : (res.data && (res.data.list || res.data.records || res.data.data)) || [];
+          this.availableSlots = slots;
           console.log('时间段加载成功:', this.availableSlots);
         } else {
           this.error = res.msg || '加载时间段失败';

@@ -15,7 +15,7 @@
         <div class="service-grid-full">
           <div class="m-card" v-for="item in serviceList" :key="item.id" @click="goDetail(item)">
             <div class="m-card-cover">
-              <img :src="'https://picsum.photos/400/300?random=' + (item.id + 100)" alt="">
+              <img :src="item.cover || 'https://picsum.photos/400/300?random=' + (item.id + 100)" alt="">
               <div class="badge-price">￥{{ item.price }}<span>/天</span></div>
             </div>
             <div class="m-card-body">
@@ -87,17 +87,24 @@ export default {
     async fetchServices(opts = {}) {
       const { silent = false, force = false } = opts;
       if (!silent) this.loading = true;
-      
+
       try {
         const apiUrl = `${BASE_URL}/api/thing/list`;
-        const res = await axios.get(apiUrl, { 
-          params: { 
-            city: this.currentCity, 
-            classificationId: 2,  // 2 = 月嫂服务
+        const res = await axios.get(apiUrl, {
+          params: {
+            city: this.currentCity,
+            c: 3,  // 3 = 月嫂服务
             sort: 'recommend'
-          } 
+          }
         });
-        this.serviceList = this.normalizeList(res.data);
+        const list = this.normalizeList(res.data);
+        // 处理图片URL
+        list.forEach((item) => {
+          if (item.cover) {
+            item.cover = BASE_URL + '/api/staticfiles/image/' + item.cover;
+          }
+        });
+        this.serviceList = list;
       } catch (err) {
         console.error('获取月嫂列表失败:', err);
         this.$message.error('获取服务列表失败');
