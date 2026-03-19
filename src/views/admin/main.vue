@@ -76,6 +76,10 @@
           <home-outlined />
           <span>统计分析</span>
         </a-menu-item>
+        <a-menu-item key="recommendConfig">
+          <thunderbolt-outlined />
+          <span>推荐配置</span>
+        </a-menu-item>
         <a-menu-item key="sysInfo">
           <info-circle-outlined />
           <span>系统信息</span>
@@ -115,6 +119,7 @@ import {
   DollarOutlined,
   LayoutOutlined,
   DatabaseOutlined,
+  ThunderboltOutlined,
 } from '@ant-design/icons-vue';
 
 import { ref, watch, onMounted } from 'vue';
@@ -155,6 +160,7 @@ const getPageTitle = (name) => {
     errorLog: '错误日志',
     overview: '统计分析',
     sysInfo: '系统信息',
+    recommendConfig: '推荐配置',
   };
   return titleMap[name as string] || '后台管理';
 };
